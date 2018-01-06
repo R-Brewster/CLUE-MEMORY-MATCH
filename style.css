@@ -1,0 +1,41 @@
+body {
+    height: 100vh;
+}
+
+body > div {
+    border: 2px solid black;
+}
+
+#card_container {
+
+}
+
+#card_container {
+    position: relative;
+    width: 30%;
+    height: 100%;
+    vertical-align: top;
+    display: inline-grid;
+    grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr;
+    grid-template-rows: [row-1] auto [row-2] auto [row-3] auto [row-4] auto;
+    grid-gap: 2vh;
+    justify-items: center;
+    align-items: center;
+}
+
+#card_container > .card {
+    height: 100%;
+    width: 100%;
+    border: 1px solid black;
+    grid-column-start: auto;
+    grid-column-end: auto;
+    grid-row-start: auto;
+    grid-row-end: auto;
+}
+
+#rooms_container {
+    position: relative;
+    display: inline-block;
+    width: 67%;
+    height: 100%
+}
