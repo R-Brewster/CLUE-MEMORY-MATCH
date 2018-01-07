@@ -1,6 +1,6 @@
 function GameModel(){
     //Array of suspects for creating crimes
-    this.suspectArray = ['Mrs.White', 'Professor Plum', 'Mrs. Peacock', 'Mr. Green', 'Miss Scarlett', 'Colonel Mustard'];
+    this.suspectArray = ['Mrs. White', 'Professor Plum', 'Mrs. Peacock', 'Mr. Green', 'Miss Scarlett', 'Colonel Mustard'];
 
     //Array of weapons for creating crimes
     this.weaponsArray = ['Revolver', 'Candlestick', 'Knife', 'Lead Pipe', 'Wrench', 'Rope'];

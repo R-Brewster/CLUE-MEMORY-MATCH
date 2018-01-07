@@ -3,6 +3,22 @@ function GameView() {
     this.randomizedCards = gameModel.randomizedCards;
     this.crimes = gameModel.crimes;
 
+    this.displayCrimes = (crimes) =>{
+        for(let i=0; i<6; i++){
+
+            let crimeTitle = $('<p>').text(`Crime ${i+1}: `).addClass('crimeTitle');
+            let crimeRoom = $('<p>').text(crimes[i].room).addClass('crimeItem');
+            let crimeSuspect = $('<p>').text(crimes[i].suspect).addClass('crimeItem');
+            let crimeWeapon = $('<p>').text(crimes[i].weapon).addClass('crimeItem');
+
+            let crime = $('<div>').addClass('crime').append(crimeTitle, crimeRoom, crimeSuspect, crimeWeapon);
+
+            $('#crimes_container').append(crime);
+        }
+    };
+
+    this.displayCrimes(this.crimes);
+
     //Create the cards and append them to the card container
     this.makeCards =  (randomizedCards) => {
         for(let i=0; i<12; i++){
