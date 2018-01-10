@@ -127,6 +127,13 @@ body > div {
     background-position-x: -2%;
     box-shadow: 0 0 0 5px black inset;
     transform: rotateY(180deg);
+    /*animation: flip 2s linear;*/
+    position: absolute;
+    left: 0;
+    z-index: 2;
+}
+
+.flip {
     animation: flip 2s linear;
 }
 
@@ -156,7 +163,6 @@ body > div {
     width: 17vh;
     left: 2vh;
     top: 4vh;
-    /*Absolute to prevent rooms in css grid from resizing as a result of appending a child element*/
     position: absolute;
     margin: 1vh;
     display: inline-block;

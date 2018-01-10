@@ -214,22 +214,26 @@ function GameView() {
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
-        // switch(isCrimeSolved){
-        //     //If the crime has been solved, the cards can be left facing up, but the dragging function needs to be removed
-        //     case true:
-        //        document.getElementById(suspect).children[0].classList.add('cardBackFlip');
-        //
-        //        // setTimeout(()=>{
-        //        //     document.getElementById(suspect).children[1].classList.add('cardFrontFlip');
-        //        //     // document.getElementById(suspect).children[0].style.display = 'none';
-        //        //     // document.getElementById(suspect).children[1].style.display = 'inline-block';
-        //        // }, 1010);
-        //
-        //     //If the crime was not solved, the card needs to wait for the player to see the card front, then remove the added image and
-        //     case false:
-        //
-        //
-        // }
+        switch(isCrimeSolved){
+            //If the crime has been solved, the cards can be left facing up, but the dragging function needs to be removed
+            case true:
+                document.getElementById(suspect).children[0].classList.add('cardBackFlip');
+                document.getElementById(suspect).children[1].classList.add('flip');
+
+                document.getElementById(weapon).children[0].classList.add('cardBackFlip');
+                document.getElementById(weapon).children[1].classList.add('flip');
+
+               setTimeout(()=>{
+                   document.getElementById(suspect).children[1].classList.add('cardFrontFlip');
+                   document.getElementById(weapon).children[1].classList.add('cardFrontFlip');
+
+               }, 1010);
+
+            //If the crime was not solved, the card needs to wait for the player to see the card front, then remove the added image and
+            case false:
+
+
+        }
     }
 }
 
