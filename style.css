@@ -1,3 +1,18 @@
+/*@keyframes flipBack {*/
+    /*from{transform: rotateY(180deg);}*/
+    /*to{transform: rotateY(0deg);}*/
+/*}*/
+
+@keyframes flip {
+    from{transform: rotateY(0deg);}
+    to{transform: rotateY(180deg);}
+}
+
+@keyframes flipOther {
+    from{transform: rotateY(0deg);}
+    to{transform: rotateY(180deg);}
+}
+
 body {
     height: 100vh;
 }
@@ -50,12 +65,92 @@ body > div {
 
 #card_container > .card {
     height: 100%;
-    width: 100%;
-    border: 1px solid black;
+    width: 65%;
     grid-column-start: auto;
     grid-column-end: auto;
     grid-row-start: auto;
     grid-row-end: auto;
+    /*perspective: 1000px;*/
+    /*transform-style: preserve-3d;*/
+}
+
+.cardBack {
+    background-image: url(./images/clue_small.png);
+    background-size: 100%;
+    background-color: firebrick;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 5px black inset;
+}
+
+.cardBackFlip {
+    background-image: url(./images/clue_small.png);
+    background-size: 100%;
+    background-color: firebrick;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 5px black inset;
+    animation: flip 2s linear;
+}
+
+/*.flip {*/
+    /*!*background-image: url(./images/clue_small.png);*!*/
+    /*!*background-size: 100%;*!*/
+    /*!*background-color: firebrick;*!*/
+    /*!*background-position-y: 50%;*!*/
+    /*!*background-repeat: no-repeat;*!*/
+    /*!*box-shadow: 0 0 0 5px black inset;*!*/
+    /*animation: flip 2s linear;*/
+/*}*/
+
+.cardFrontFlip {
+    background-size: 100%;
+    background-position-x: -2%;
+    box-shadow: 0 0 0 5px black inset;
+    transform: rotateY(180deg);
+    animation: flip 2s linear;
+}
+
+.cardFrontFlipToInitial {
+    background-size: 100%;
+    background-position-x: -2%;
+    box-shadow: 0 0 0 5px black inset;
+    transform: rotateY(180deg);
+    animation: flip 2s linear;
+}
+
+.cardBackFlipToInitial {
+    background-image: url(./images/clue_small.png);
+    background-size: 100%;
+    background-color: firebrick;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 5px black inset;
+    animation: flip 2s linear;
+}
+
+
+
+/*Two dropped card classes to prevent the cards from overlapping, since they're absolutely positioned*/
+.droppedCard1 {
+    height: 25vh;
+    width: 17vh;
+    left: 2vh;
+    top: 4vh;
+    /*Absolute to prevent rooms in css grid from resizing as a result of appending a child element*/
+    position: absolute;
+    margin: 1vh;
+    display: inline-block;
+}
+
+.droppedCard2 {
+    height: 25vh;
+    width: 17vh;
+    left: 22vh;
+    top: 4vh;
+    position: absolute;
+    margin: 1vh;
+    display: inline-block;
 }
 
 /*Room container and rooms*/
@@ -81,4 +176,9 @@ body > div {
     grid-column-end: auto;
     grid-row-start: auto;
     grid-row-end: auto;
+    white-space: nowrap;
+    background-size: cover;
+    /*Set  to relative for the dropped card's absolute positioning*/
+    position: relative;
 }
+

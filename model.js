@@ -1,28 +1,15 @@
 function GameModel(){
     //Array of suspects for creating crimes
-    this.suspectArray = ['Mrs. White', 'Professor Plum', 'Mrs. Peacock', 'Mr. Green', 'Miss Scarlett', 'Colonel Mustard'];
+    this.suspectArray = ['Mrs_White', 'Professor_Plum', 'Mrs_Peacock', 'Mr_Green', 'Miss_Scarlett', 'Colonel_Mustard'];
 
     //Array of weapons for creating crimes
-    this.weaponsArray = ['Revolver', 'Candlestick', 'Knife', 'Lead Pipe', 'Wrench', 'Rope'];
+    this.weaponsArray = ['Revolver', 'Candlestick', 'Knife', 'Lead_Pipe', 'Wrench', 'Rope'];
 
     //Array of rooms for creating crimes
-    this.roomsArray = ['Billiard Room', 'Kitchen', 'Conservatory', 'Ballroom', 'Dining Room', 'Library'];
+    this.roomsArray = ['Billiard_Room', 'Kitchen', 'Conservatory', 'Ballroom', 'Dining_Room', 'Library'];
 
     //Array of objects with either a suspect or weapon, for randomizing cards
-    this.arrayForCards = [
-        {name: 'Mrs. White', type: 'suspect'},
-        {name: 'Professor Plum', type: 'suspect'},
-        {name: 'Mrs. Peacock', type: 'suspect'},
-        {name: 'Mr. Green', type: 'suspect'},
-        {name: 'Miss Scarlett', type: 'suspect'},
-        {name: 'Colonel Mustard', type: 'suspect'},
-        {name: 'Revolver', type: 'weapon'},
-        {name: 'Candlestick', type: 'weapon'},
-        {name: 'Knife', type: 'weapon'},
-        {name: 'Lead Pipe', type: 'weapon'},
-        {name: 'Wrench', type: 'weapon'},
-        {name: 'Rope', type: 'weapon'},
-    ];
+    this.arrayForCards = ['Mrs_White', 'Professor_Plum', 'Mrs_Peacock', 'Mr_Green', 'Miss_Scarlett', 'Colonel_Mustard', 'Revolver', 'Candlestick', 'Knife', 'Lead_Pipe', 'Wrench', 'Rope'];
 
     //Array of randomized cards used by the view to make the cards
     this.randomizedCards = [];
