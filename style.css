@@ -70,6 +70,7 @@ body > div {
     grid-column-end: auto;
     grid-row-start: auto;
     grid-row-end: auto;
+    position: relative;
     /*perspective: 1000px;*/
     /*transform-style: preserve-3d;*/
 }
@@ -81,6 +82,10 @@ body > div {
     background-position-y: 50%;
     background-repeat: no-repeat;
     box-shadow: 0 0 0 5px black inset;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
 }
 
 .cardBackFlip {
@@ -103,7 +108,21 @@ body > div {
     /*animation: flip 2s linear;*/
 /*}*/
 
+.cardFront {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-size: 100%;
+    background-position-x: -2%;
+    box-shadow: 0 0 0 5px black inset;
+    transform: rotateY(180deg);
+    /* position: absolute; */
+    /* animation: flip 2s linear; */
+}
+
 .cardFrontFlip {
+    display: inline-block;
+    height: 100%;
     background-size: 100%;
     background-position-x: -2%;
     box-shadow: 0 0 0 5px black inset;
@@ -111,23 +130,23 @@ body > div {
     animation: flip 2s linear;
 }
 
-.cardFrontFlipToInitial {
-    background-size: 100%;
-    background-position-x: -2%;
-    box-shadow: 0 0 0 5px black inset;
-    transform: rotateY(180deg);
-    animation: flip 2s linear;
-}
+/*.cardFrontFlipToInitial {*/
+    /*background-size: 100%;*/
+    /*background-position-x: -2%;*/
+    /*box-shadow: 0 0 0 5px black inset;*/
+    /*transform: rotateY(180deg);*/
+    /*animation: flip 2s linear;*/
+/*}*/
 
-.cardBackFlipToInitial {
-    background-image: url(./images/clue_small.png);
-    background-size: 100%;
-    background-color: firebrick;
-    background-position-y: 50%;
-    background-repeat: no-repeat;
-    box-shadow: 0 0 0 5px black inset;
-    animation: flip 2s linear;
-}
+/*.cardBackFlipToInitial {*/
+    /*background-image: url(./images/clue_small.png);*/
+    /*background-size: 100%;*/
+    /*background-color: firebrick;*/
+    /*background-position-y: 50%;*/
+    /*background-repeat: no-repeat;*/
+    /*box-shadow: 0 0 0 5px black inset;*/
+    /*animation: flip 2s linear;*/
+/*}*/
 
 
 

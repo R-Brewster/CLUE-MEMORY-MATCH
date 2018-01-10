@@ -25,13 +25,22 @@ function GameView() {
     //Create the cards and append them to the card container
     this.makeCards =  (randomizedCards) => {
         for(let i=0; i<12; i++){
-            let card = $('<div>').text(randomizedCards[i]).addClass('card cardBack').attr({
-                //Remove the .  in people's names (needed for the cime list) to prevent file-finding error in this.crimeSolved
+            let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
                 id: randomizedCards[i],
                 draggable: 'true',
                 ondragstart: 'gameView.drag(event)'
             });
+
+            let cardBack = $('<div>').addClass('cardBack');
+
+            let cardFront = $('<div>').addClass('cardFront').css({
+                backgroundImage: `url(images/${randomizedCards[i]}.png)`,
+                // display: 'none',
+            });
+
             $('#card_container').append(card);
+
+            $(`#${randomizedCards[i]}`).append(cardBack, cardFront);
         }
 
     };
@@ -119,11 +128,11 @@ function GameView() {
                 }
                 //If another sibling is present, we first need to figure out which droppedCard class it has then give this card the other droppedCard class
                 else {
-                    let siblingDroppedCardClass = document.getElementById(data).previousSibling.classList[2];
+                    let siblingDroppedCardClass = document.getElementById(data).previousSibling.classList[1];
 
                     switch(siblingDroppedCardClass){
                         case 'droppedCard1':
-                            if(document.getElementById(data).classList[2] !== undefined){
+                            if(document.getElementById(data).classList[1] !== undefined){
                                 document.getElementById(data).classList.replace(`${document.getElementById(data).classList[2]}`, 'droppedCard2');
                                 // document.getElementById(data).classList.add('droppedCard2');
                             }
@@ -132,7 +141,7 @@ function GameView() {
                             }
                             break;
                         case 'droppedCard2':
-                            if(document.getElementById(data).classList[2] !== undefined){
+                            if(document.getElementById(data).classList[1] !== undefined){
                                 document.getElementById(data).classList.replace(`${document.getElementById(data).classList[2]}`, 'droppedCard1');
                                 // document.getElementById(data).classList.add('droppedCard1');
                             }
@@ -204,54 +213,23 @@ function GameView() {
 
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
-        this.flipFront = () => {
-            //Toggles the classes that flips the card back and card front
-            document.getElementById(suspect).classList.toggle('cardBackFlip');
-            document.getElementById(suspect).classList.toggle('cardFrontFlip');
 
-            // About 1 second after the card back and front begins to flip, the background image needs to be added
-            setTimeout(()=>{
-                document.getElementById(suspect).style.backgroundImage = `url(images/${suspect}.png)`;
-            },1010);
-
-            //Repeat the above for the weapon card
-            document.getElementById(weapon).classList.toggle('cardBackFlip');
-            document.getElementById(weapon).classList.toggle('cardFrontFlip');
-            setTimeout(()=>{
-                document.getElementById(weapon).style.backgroundImage = `url(images/${weapon}.png)`;
-            },1010);
-        };
-
-        this.flipBack = () => {
-            //Set to inital values (so before flipFront)
-            document.getElementById(suspect).classList.toggle('cardFrontFlip');
-            document.getElementById(suspect).style.backgroundImage = '';
-            document.getElementById(suspect).classList.toggle('cardBackFlip');
-
-            document.getElementById(suspect).classList.toggle('cardFrontFlipToInitial');
-            setTimeOut(()=>{
-                document.getElementById(suspect).classList.toggle('cardBackFlip');
-            }, 1010);
-            document.getElementById(suspect).classList.toggle('cardBackFlipToInitial');
-        };
-
-        switch(isCrimeSolved){
-            //If the crime has been solved, the cards can be left facing up, but the dragging function needs to be removed
-            case true:
-                this.flipFront();
-                document.getElementById(suspect).removeAttribute('ondragstart');
-                document.getElementById(weapon).removeAttribute('ondragstart');
-                break;
-
-            //If the crime was not solved, the card needs to wait for the player to see the card front, then remove the added image and
-            case false:
-                this.flipFront();
-
-                setTimeout(()=> {
-                    this.flipBack();
-                }, 3000)
-
-        }
+        // switch(isCrimeSolved){
+        //     //If the crime has been solved, the cards can be left facing up, but the dragging function needs to be removed
+        //     case true:
+        //        document.getElementById(suspect).children[0].classList.add('cardBackFlip');
+        //
+        //        // setTimeout(()=>{
+        //        //     document.getElementById(suspect).children[1].classList.add('cardFrontFlip');
+        //        //     // document.getElementById(suspect).children[0].style.display = 'none';
+        //        //     // document.getElementById(suspect).children[1].style.display = 'inline-block';
+        //        // }, 1010);
+        //
+        //     //If the crime was not solved, the card needs to wait for the player to see the card front, then remove the added image and
+        //     case false:
+        //
+        //
+        // }
     }
 }
 
