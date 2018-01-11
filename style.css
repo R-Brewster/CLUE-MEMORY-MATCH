@@ -1,3 +1,8 @@
+@keyframes flip {
+    from{transform: rotateY(0deg);}
+    to{transform: rotateY(180deg);}
+}
+
 body {
     height: 100vh;
 }
@@ -6,10 +11,39 @@ body > div {
     border: 2px solid black;
 }
 
+/*Crime container and crimes*/
+#crimes_container {
+    position: relative;
+    width: 98%;
+    height: 20%;
+    vertical-align: top;
+    display: inline-grid;
+    grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr [col-4] 1fr [col-5] 1fr [col-6] 1fr;
+    grid-template-rows: [row-1] auto;
+    grid-gap: 2vh;
+    justify-items: center;
+    align-items: center;
+}
+
+.crime {
+    height: 100%;
+    width: 100%;
+    grid-column-start: auto;
+    grid-column-end: auto;
+    grid-row-start: auto;
+    grid-row-end: auto;
+}
+
+.crimeTitle {
+    margin: 0;
+}
+
+/*Card container and cards*/
+
 #card_container {
     position: relative;
     width: 30%;
-    height: 100%;
+    height: 75%;
     vertical-align: top;
     display: inline-grid;
     grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr;
@@ -19,20 +53,76 @@ body > div {
     align-items: center;
 }
 
-#card_container > .card {
+/*Flipping motion based on: https://desandro.github.io/3dtransforms/docs/card-flip.html*/
+.card {
     height: 100%;
-    width: 100%;
-    border: 1px solid black;
+    width: 65%;
     grid-column-start: auto;
     grid-column-end: auto;
     grid-row-start: auto;
     grid-row-end: auto;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s;
 }
+
+.cardBack {
+    background-image: url(./images/clue_small.png);
+    background-size: 100%;
+    background-color: firebrick;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 5px black inset;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    /* transform: rotateY( 180deg ); */
+}
+
+.cardFront {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-size: 100%;
+    background-position-x: -2%;
+    box-shadow: 0 0 0 5px black inset;
+    position: absolute;
+     transform: rotateY( 180deg );
+     /*backface-visibility: hidden; */
+}
+
+.card.flipped {
+    transform: rotateY( 180deg );
+}
+
+/*Two dropped card classes to prevent the cards from overlapping, since they're absolutely positioned*/
+.droppedCard1 {
+    height: 25vh;
+    width: 17vh;
+    left: 2vh;
+    top: 4vh;
+    position: absolute;
+    margin: 1vh;
+    display: inline-block;
+}
+
+.droppedCard2 {
+    height: 25vh;
+    width: 17vh;
+    left: 22vh;
+    top: 4vh;
+    position: absolute;
+    margin: 1vh;
+    display: inline-block;
+}
+
+/*Room container and rooms*/
 
 #rooms_container {
     position: relative;
     width: 67%;
-    height: 100%;
+    height: 75%;
     vertical-align: top;
     display: inline-grid;
     grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr;
@@ -50,4 +140,9 @@ body > div {
     grid-column-end: auto;
     grid-row-start: auto;
     grid-row-end: auto;
+    white-space: nowrap;
+    background-size: cover;
+    position: relative;
+    perspective: 800px;
 }
+

@@ -3,15 +3,44 @@ function GameView() {
     this.randomizedCards = gameModel.randomizedCards;
     this.crimes = gameModel.crimes;
 
+    this.displayCrimes = (crimes) =>{
+        for(let i=0; i<6; i++){
+            let roomWithoutUnderscore = (crimes[i].room).replace('_', ' ');
+            let suspectWithoutUnderscore = (crimes[i].suspect).replace('_', ' ');
+            let weaponWithoutUnderscore = (crimes[i].weapon).replace('_', ' ');
+
+            let crimeTitle = $('<p>').text(`Crime ${i+1}: `).addClass('crimeTitle');
+            let crimeRoom = $('<p>').text(roomWithoutUnderscore).addClass('crimeItem');
+            let crimeSuspect = $('<p>').text(suspectWithoutUnderscore).addClass('crimeItem');
+            let crimeWeapon = $('<p>').text(weaponWithoutUnderscore).addClass('crimeItem');
+
+            let crime = $('<div>').addClass('crime').append(crimeTitle, crimeRoom, crimeSuspect, crimeWeapon);
+
+            $('#crimes_container').append(crime);
+        }
+    };
+
+    this.displayCrimes(this.crimes);
+
     //Create the cards and append them to the card container
     this.makeCards =  (randomizedCards) => {
         for(let i=0; i<12; i++){
-            let card = $('<div>').text(randomizedCards[i].name).addClass(`card ${randomizedCards[i].type}`).attr({
-                id: randomizedCards[i].name,
+            let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
+                id: randomizedCards[i],
                 draggable: 'true',
                 ondragstart: 'gameView.drag(event)'
             });
+
+            let cardBack = $('<div>').addClass('cardBack');
+
+            let cardFront = $('<div>').addClass('cardFront').css({
+                backgroundImage: `url(images/${randomizedCards[i]}.png)`,
+                // display: 'none',
+            });
+
             $('#card_container').append(card);
+
+            $(`#${randomizedCards[i]}`).append(cardFront, cardBack, );
         }
 
     };
@@ -21,11 +50,12 @@ function GameView() {
     //Create the rooms and append them to the room container
     this.makeRooms = (crimes) => {
         for(let i=0; i<6; i++){
-            let room = $('<div>').text(crimes[i].room).addClass('room').attr({
+            let room = $('<div>').addClass('room').css('background-image', `url(images/${crimes[i].room}.png`).attr({
                 id: crimes[i].room,
                 ondrop: 'gameView.drop(event)',
                 ondragover: 'gameView.allowDrop(event)',
             });
+
             $('#rooms_container').append(room);
         }
     };
@@ -38,8 +68,9 @@ function GameView() {
     };
 
     //Sets the data type and value
+    //Switched to core JS since it seems easier to use for the parentElement and childElementCount properties
     this.drag = (ev) => {
-        if(ev.target.id !== undefined){
+        if(ev.target.id !== ""){
             ev.dataTransfer.setData("text", ev.target.id);
 
             //If the parent element has two children, allow ondrop events again (this card is being removed from this room, so more cards should be allowed in)
@@ -77,55 +108,154 @@ function GameView() {
                     return null;
             }
 
+            // let currentClassList = document.getElementById(ev.target.id).classList;
+            //
+            // if(currentClassList.contains('droppedCard1')) {
+            //     document.getElementById(ev.target.id).classList.remove('droppedCard1');
+            // }
+            //
+            // else if(currentClassList.contains('droppedCard2')) {
+            //     document.getElementById(ev.target.id).classList.remove('droppedCard2');
+            // }
 
         }
     };
 
     //Declares the data being moved and appends it to the element that it's being dropped on, then uses the information from the dropped element and its new parent to create a matchedObjects array for the model
+
     this.drop = (ev) =>{
         //Prevents error resulting from this being read before a drag and drop event has happened
         if(ev.dataTransfer !== undefined) {
             ev.preventDefault();
             let data = ev.dataTransfer.getData("text");
-            ev.target.appendChild(document.getElementById(data));
 
-            // console.log(document.getElementById(data));
-            // console.log(document.getElementById(data).id);
-            // console.log(document.getElementById(data).classList[1]);
+            //If the div the card will be dropped into is a room, append the card to that div then add a class to fit in the room
+            if(ev.target.className === "room"){
+                ev.target.appendChild(document.getElementById(data));
 
-            //Uses the room the card was dropped into (is now the parent element of the card) to find the index of the room in the crime list
+                //If this card is the only child of the room div, give it droppedCard1
+                if(document.getElementById(data).previousSibling === null){
+
+                    //If the card is coming from another room where it was 'droppedCard2', it  needs to become 'droppedCard1'
+                    if(document.getElementById(data).classList.contains('droppedCard2')){
+                        document.getElementById(data).classList.replace('droppedCard1')
+                    }
+
+                    //If the card doesn't have 'droppedCard1', add it
+                    else if(!document.getElementById(data).classList.contains('droppedCard1')){
+                        document.getElementById(data).classList.add('droppedCard1')
+                    }
+
+                }
+                //If another sibling is present, we first need to figure out which droppedCard class it has then give this card the other droppedCard class
+                else {
+                    let siblingDroppedCardClassList = document.getElementById(data).previousSibling.classList;
+                    let siblingDroppedCardClass = '';
+
+                     if(siblingDroppedCardClassList.contains('droppedCard1')){
+                         siblingDroppedCardClass = 'droppedCard1'
+                     }
+                     else if (siblingDroppedCardClassList.contains('droppedCard2')) {
+                         siblingDroppedCardClass = 'droppedCard2'
+                     }
+
+                    switch(siblingDroppedCardClass){
+                        case 'droppedCard1':
+                            if(document.getElementById(data).classList.contains('droppedCard1')){
+                                document.getElementById(data).classList.replace('droppedCard1', 'droppedCard2');
+                                // document.getElementById(data).classList.add('droppedCard2');
+                            }
+                            else{
+                                document.getElementById(data).classList.add('droppedCard2');
+                            }
+                            break;
+                        case 'droppedCard2':
+                            if(document.getElementById(data).classList.contains('droppedCard2')){
+                                document.getElementById(data).classList.replace('droppedCard2', 'droppedCard1');
+                                // document.getElementById(data).classList.add('droppedCard1');
+                            }
+                            else{
+                                document.getElementById(data).classList.add('droppedCard1');
+                            }
+                        console.log('card classes', document.getElementById(data).classList)
+                    }
+                }
+            }
+
+            //If the card is being dropped back into the card container, remove the dropCard class added if it was dropped into a room previously, then append to the card container
+            else {
+                let whichDroppedCardClass =  document.getElementById(data).classList[1];
+
+                switch(whichDroppedCardClass){
+                    case 'droppedCard1':
+                        document.getElementById(data).classList.remove('droppedCard1');
+                        break;
+                    case 'droppedCard2':
+                        document.getElementById(data).classList.remove('droppedCard2');
+                        break;
+                    default:
+                        return null;
+                }
+
+                ev.target.appendChild(document.getElementById(data));
+            }
+
+
+            //Uses the room the card was dropped into (is now the parent element of the card) to find the index of the room in the crime list (and change id that has underscore to space so it matches what's in the crime list)
             let parentRoomIndex = this.matchedObjects.findIndex((crime) => {
                 return crime.room === document.getElementById(data).parentElement.id
             });
 
-            //Item 1 of the correct room in the matchedObjects index is recorded as this card that was dropped
-            if(this.matchedObjects[parentRoomIndex].item1 === ''){
+            //Item 1 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
+            if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item1 === ''){
                 this.matchedObjects[parentRoomIndex].item1 = document.getElementById(data).id
             }
 
-            //Item 2 of the correct room in the matchedObjects index is recorded as this card that was dropped
-            else if(this.matchedObjects[parentRoomIndex].item2 === ''){
+            //Item 2 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
+            else if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item2 === ''){
                 this.matchedObjects[parentRoomIndex].item2 = document.getElementById(data).id;
             }
 
-            //If the room has two items already matched, prevent any more cards being added by removing the ondrop attribute
-            if(document.getElementById(data).parentElement.childElementCount === 2){
-                document.getElementById(data).parentElement.removeAttribute('ondrop')
+            //If the room has two items already matched, prevent any more cards being added by removing the ondrop attribute (unless the cards are being put back in )
+            if(document.getElementById(data).parentElement.childElementCount === 2 && document.getElementById(data).parentElement.id !== 'card_container'){
+                document.getElementById(data).parentElement.removeAttribute('ondrop');
+
+                gameController.detectCrime(parentRoomIndex);
             }
 
-            //After each card drop, check if that card matches a crime and if a crime is solved
-            gameController.detectCrime(parentRoomIndex);
+            // //After each card drop, check if that card matches a crime and if a crime is solved (Only do this if the card was not put back in the card container, in which case the parentIndex is -1)
+            // if(parentRoomIndex !== -1){
+            //     gameController.detectCrime(parentRoomIndex);
+            // }
         }
     };
 
     //Used to record what cards have been dropped into which rooms
     this.matchedObjects = [
         {room: 'Ballroom', item1: '', item2: ''},
-        {room: 'Dining Room', item1: '', item2: ''},
+        {room: 'Dining_Room', item1: '', item2: ''},
         {room: 'Library', item1: '', item2: ''},
         {room: 'Conservatory', item1: '', item2: ''},
-        {room: 'Billiard Room', item1: '', item2: ''},
+        {room: 'Billiard_Room', item1: '', item2: ''},
         {room: 'Kitchen', item1: '', item2: ''},
     ];
+
+    //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
+    this.flipCards = (suspect, weapon, isCrimeSolved) => {
+
+        document.getElementById(suspect).classList.add('flipped');
+        document.getElementById(weapon).classList.add('flipped');
+
+        switch(isCrimeSolved){
+            case true:
+                document.getElementById(suspect).setAttribute('draggable', false);
+                document.getElementById(weapon).setAttribute('draggable', false);
+                break;
+
+            case false:
+
+
+        }
+    }
 }
 
