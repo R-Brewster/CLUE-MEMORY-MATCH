@@ -40,7 +40,7 @@ function GameView() {
 
             $('#card_container').append(card);
 
-            $(`#${randomizedCards[i]}`).append(cardBack, cardFront);
+            $(`#${randomizedCards[i]}`).append(cardFront, cardBack, );
         }
 
     };
@@ -107,6 +107,17 @@ function GameView() {
                 default:
                     return null;
             }
+
+            // let currentClassList = document.getElementById(ev.target.id).classList;
+            //
+            // if(currentClassList.contains('droppedCard1')) {
+            //     document.getElementById(ev.target.id).classList.remove('droppedCard1');
+            // }
+            //
+            // else if(currentClassList.contains('droppedCard2')) {
+            //     document.getElementById(ev.target.id).classList.remove('droppedCard2');
+            // }
+
         }
     };
 
@@ -124,16 +135,34 @@ function GameView() {
 
                 //If this card is the only child of the room div, give it droppedCard1
                 if(document.getElementById(data).previousSibling === null){
-                    document.getElementById(data).classList.add('droppedCard1');
+
+                    //If the card is coming from another room where it was 'droppedCard2', it  needs to become 'droppedCard1'
+                    if(document.getElementById(data).classList.contains('droppedCard2')){
+                        document.getElementById(data).classList.replace('droppedCard1')
+                    }
+
+                    //If the card doesn't have 'droppedCard1', add it
+                    else if(!document.getElementById(data).classList.contains('droppedCard1')){
+                        document.getElementById(data).classList.add('droppedCard1')
+                    }
+
                 }
                 //If another sibling is present, we first need to figure out which droppedCard class it has then give this card the other droppedCard class
                 else {
-                    let siblingDroppedCardClass = document.getElementById(data).previousSibling.classList[1];
+                    let siblingDroppedCardClassList = document.getElementById(data).previousSibling.classList;
+                    let siblingDroppedCardClass = '';
+
+                     if(siblingDroppedCardClassList.contains('droppedCard1')){
+                         siblingDroppedCardClass = 'droppedCard1'
+                     }
+                     else if (siblingDroppedCardClassList.contains('droppedCard2')) {
+                         siblingDroppedCardClass = 'droppedCard2'
+                     }
 
                     switch(siblingDroppedCardClass){
                         case 'droppedCard1':
-                            if(document.getElementById(data).classList[1] !== undefined){
-                                document.getElementById(data).classList.replace(`${document.getElementById(data).classList[2]}`, 'droppedCard2');
+                            if(document.getElementById(data).classList.contains('droppedCard1')){
+                                document.getElementById(data).classList.replace('droppedCard1', 'droppedCard2');
                                 // document.getElementById(data).classList.add('droppedCard2');
                             }
                             else{
@@ -141,8 +170,8 @@ function GameView() {
                             }
                             break;
                         case 'droppedCard2':
-                            if(document.getElementById(data).classList[1] !== undefined){
-                                document.getElementById(data).classList.replace(`${document.getElementById(data).classList[2]}`, 'droppedCard1');
+                            if(document.getElementById(data).classList.contains('droppedCard2')){
+                                document.getElementById(data).classList.replace('droppedCard2', 'droppedCard1');
                                 // document.getElementById(data).classList.add('droppedCard1');
                             }
                             else{
@@ -155,7 +184,7 @@ function GameView() {
 
             //If the card is being dropped back into the card container, remove the dropCard class added if it was dropped into a room previously, then append to the card container
             else {
-                let whichDroppedCardClass =  document.getElementById(data).classList[2];
+                let whichDroppedCardClass =  document.getElementById(data).classList[1];
 
                 switch(whichDroppedCardClass){
                     case 'droppedCard1':
@@ -214,22 +243,15 @@ function GameView() {
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
+        document.getElementById(suspect).classList.add('flipped');
+        document.getElementById(weapon).classList.add('flipped');
+
         switch(isCrimeSolved){
-            //If the crime has been solved, the cards can be left facing up, but the dragging function needs to be removed
             case true:
-                document.getElementById(suspect).children[0].classList.add('cardBackFlip');
-                document.getElementById(suspect).children[1].classList.add('flip');
+                document.getElementById(suspect).setAttribute('draggable', false);
+                document.getElementById(weapon).setAttribute('draggable', false);
+                break;
 
-                document.getElementById(weapon).children[0].classList.add('cardBackFlip');
-                document.getElementById(weapon).children[1].classList.add('flip');
-
-               setTimeout(()=>{
-                   document.getElementById(suspect).children[1].classList.add('cardFrontFlip');
-                   document.getElementById(weapon).children[1].classList.add('cardFrontFlip');
-
-               }, 1010);
-
-            //If the crime was not solved, the card needs to wait for the player to see the card front, then remove the added image and
             case false:
 
 

@@ -1,14 +1,4 @@
-/*@keyframes flipBack {*/
-    /*from{transform: rotateY(180deg);}*/
-    /*to{transform: rotateY(0deg);}*/
-/*}*/
-
 @keyframes flip {
-    from{transform: rotateY(0deg);}
-    to{transform: rotateY(180deg);}
-}
-
-@keyframes flipOther {
     from{transform: rotateY(0deg);}
     to{transform: rotateY(180deg);}
 }
@@ -63,7 +53,8 @@ body > div {
     align-items: center;
 }
 
-#card_container > .card {
+/*Flipping motion based on: https://desandro.github.io/3dtransforms/docs/card-flip.html*/
+.card {
     height: 100%;
     width: 65%;
     grid-column-start: auto;
@@ -71,8 +62,8 @@ body > div {
     grid-row-start: auto;
     grid-row-end: auto;
     position: relative;
-    /*perspective: 1000px;*/
-    /*transform-style: preserve-3d;*/
+    transform-style: preserve-3d;
+    transition: transform 1s;
 }
 
 .cardBack {
@@ -85,28 +76,9 @@ body > div {
     height: 100%;
     position: absolute;
     width: 100%;
-    z-index: 1;
+    backface-visibility: hidden;
+    /* transform: rotateY( 180deg ); */
 }
-
-.cardBackFlip {
-    background-image: url(./images/clue_small.png);
-    background-size: 100%;
-    background-color: firebrick;
-    background-position-y: 50%;
-    background-repeat: no-repeat;
-    box-shadow: 0 0 0 5px black inset;
-    animation: flip 2s linear;
-}
-
-/*.flip {*/
-    /*!*background-image: url(./images/clue_small.png);*!*/
-    /*!*background-size: 100%;*!*/
-    /*!*background-color: firebrick;*!*/
-    /*!*background-position-y: 50%;*!*/
-    /*!*background-repeat: no-repeat;*!*/
-    /*!*box-shadow: 0 0 0 5px black inset;*!*/
-    /*animation: flip 2s linear;*/
-/*}*/
 
 .cardFront {
     height: 100%;
@@ -115,47 +87,14 @@ body > div {
     background-size: 100%;
     background-position-x: -2%;
     box-shadow: 0 0 0 5px black inset;
-    transform: rotateY(180deg);
-    /* position: absolute; */
-    /* animation: flip 2s linear; */
-}
-
-.cardFrontFlip {
-    display: inline-block;
-    height: 100%;
-    background-size: 100%;
-    background-position-x: -2%;
-    box-shadow: 0 0 0 5px black inset;
-    transform: rotateY(180deg);
-    /*animation: flip 2s linear;*/
     position: absolute;
-    left: 0;
-    z-index: 2;
+     transform: rotateY( 180deg );
+     /*backface-visibility: hidden; */
 }
 
-.flip {
-    animation: flip 2s linear;
+.card.flipped {
+    transform: rotateY( 180deg );
 }
-
-/*.cardFrontFlipToInitial {*/
-    /*background-size: 100%;*/
-    /*background-position-x: -2%;*/
-    /*box-shadow: 0 0 0 5px black inset;*/
-    /*transform: rotateY(180deg);*/
-    /*animation: flip 2s linear;*/
-/*}*/
-
-/*.cardBackFlipToInitial {*/
-    /*background-image: url(./images/clue_small.png);*/
-    /*background-size: 100%;*/
-    /*background-color: firebrick;*/
-    /*background-position-y: 50%;*/
-    /*background-repeat: no-repeat;*/
-    /*box-shadow: 0 0 0 5px black inset;*/
-    /*animation: flip 2s linear;*/
-/*}*/
-
-
 
 /*Two dropped card classes to prevent the cards from overlapping, since they're absolutely positioned*/
 .droppedCard1 {
@@ -203,7 +142,7 @@ body > div {
     grid-row-end: auto;
     white-space: nowrap;
     background-size: cover;
-    /*Set  to relative for the dropped card's absolute positioning*/
     position: relative;
+    perspective: 800px;
 }
 
