@@ -3,20 +3,19 @@ function GameView() {
     this.randomizedCards = gameModel.randomizedCards;
     this.crimes = gameModel.crimes;
 
+    //Format the crimes' text and append them to the crimes container
     this.displayCrimes = (crimes) =>{
         for(let i=0; i<6; i++){
-            let roomWithoutUnderscore = (crimes[i].room).replace('_', ' ');
-            let suspectWithoutUnderscore = (crimes[i].suspect).replace('_', ' ');
-            let weaponWithoutUnderscore = (crimes[i].weapon).replace('_', ' ');
+            let room = (crimes[i].room).replace('_', ' ');
+            let suspect = (crimes[i].suspect).replace('_', ' ');
+            let weapon = (crimes[i].weapon).replace('_', ' ');
 
-            let crimeTitle = $('<p>').text(`Crime ${i+1}: `).addClass('crimeTitle');
-            let crimeRoom = $('<p>').text(roomWithoutUnderscore).addClass('crimeItem');
-            let crimeSuspect = $('<p>').text(suspectWithoutUnderscore).addClass('crimeItem');
-            let crimeWeapon = $('<p>').text(weaponWithoutUnderscore).addClass('crimeItem');
+            let crimeTitle = $('<h4>').text(`Crime ${i+1}: `).addClass('crimeTitle');
+            let crimeText = $('<p>').text(`${suspect} in the ${room} with the ${weapon}`).addClass('crimeText');
 
-            let crime = $('<div>').addClass('crime').append(crimeTitle, crimeRoom, crimeSuspect, crimeWeapon);
+            let crime = $('<div>').addClass('crime').append(crimeTitle, crimeText);
 
-            $('#crimes_container').append(crime);
+            $('#crimesContainer').append(crime);
         }
     };
 
@@ -25,20 +24,21 @@ function GameView() {
     //Create the cards and append them to the card container
     this.makeCards =  (randomizedCards) => {
         for(let i=0; i<12; i++){
+            //Text is added on the card for dragging and dropping (data type is set to text)
             let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
                 id: randomizedCards[i],
                 draggable: 'true',
                 ondragstart: 'gameView.drag(event)'
             });
 
-            let cardBack = $('<div>').addClass('cardBack');
+            let cardBack = $('<div>').text(randomizedCards[i]).addClass('cardBack');
 
-            let cardFront = $('<div>').addClass('cardFront').css({
+            let cardFront = $('<div>').text(randomizedCards[i]).addClass('cardFront').css({
                 backgroundImage: `url(images/${randomizedCards[i]}.png)`,
                 // display: 'none',
             });
 
-            $('#card_container').append(card);
+            $('#cardContainer').append(card);
 
             $(`#${randomizedCards[i]}`).append(cardFront, cardBack, );
         }
@@ -56,11 +56,19 @@ function GameView() {
                 ondragover: 'gameView.allowDrop(event)',
             });
 
-            $('#rooms_container').append(room);
+            $('#roomsContainer').append(room);
         }
     };
 
     this.makeRooms(this.crimes);
+
+    //Get the statistics and display them in the stats container
+    this.showStats = (stats) => {
+        $('#crimesSolved').text(`${stats.crimesSolved}`);
+        $('#gamesPlayed').text(`${stats.gamesPlayed}`);
+        $('#attempts').text(`${stats.attempts}`);
+        $('#accuracy').text(stats.accuracy);
+    };
 
     //Prevents the default handling of the element as a link (https://www.w3schools.com/html/html5_draganddrop.asp)
     this.allowDrop = (ev) => {
@@ -94,8 +102,6 @@ function GameView() {
 
             });
 
-            console.log('card being removed', cardIndexBeingRemovedFromRoom);
-
             //If the card was an item1, remove the item1 from from the right object in this.matchedObjects, and if item2, do the same thing
             switch(item1OrItem2){
                 case 'item1':
@@ -107,17 +113,6 @@ function GameView() {
                 default:
                     return null;
             }
-
-            // let currentClassList = document.getElementById(ev.target.id).classList;
-            //
-            // if(currentClassList.contains('droppedCard1')) {
-            //     document.getElementById(ev.target.id).classList.remove('droppedCard1');
-            // }
-            //
-            // else if(currentClassList.contains('droppedCard2')) {
-            //     document.getElementById(ev.target.id).classList.remove('droppedCard2');
-            // }
-
         }
     };
 
@@ -180,6 +175,16 @@ function GameView() {
                         console.log('card classes', document.getElementById(data).classList)
                     }
                 }
+            }
+
+            //If the player changes their mind and tries to put the card back in place after it's already been picked up, we need to remove the card so it can be put back
+            // else if ( ev.target.className === "cardBack" ||  ev.target.className === "cardFront") {
+            else if ( ev.target.className === "card droppedCard1" || ev.target.className === "card droppedCard2") {
+                let roomOfCard =  document.getElementById(data).parentElement;
+                let card = document.getElementById(data);
+
+                roomOfCard.removeChild(card);
+                roomOfCard.append(card);
             }
 
             //If the card is being dropped back into the card container, remove the dropCard class added if it was dropped into a room previously, then append to the card container
@@ -260,7 +265,7 @@ function GameView() {
                 this.flip();
 
                 setTimeout(()=> {
-                    this.flip()
+                    this.flip();
                 }, 4000);
 
         }
