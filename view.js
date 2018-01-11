@@ -244,7 +244,9 @@ function GameView() {
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
         document.getElementById(suspect).classList.add('flipped');
-        document.getElementById(weapon).classList.add('flipped');
+        setTimeout(() => {
+            document.getElementById(weapon).classList.add('flipped');
+        }, 50);
 
         switch(isCrimeSolved){
             case true:
