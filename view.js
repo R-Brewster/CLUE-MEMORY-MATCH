@@ -138,7 +138,7 @@ function GameView() {
 
                     //If the card is coming from another room where it was 'droppedCard2', it  needs to become 'droppedCard1'
                     if(document.getElementById(data).classList.contains('droppedCard2')){
-                        document.getElementById(data).classList.replace('droppedCard1')
+                        document.getElementById(data).classList.replace('droppedCard2', 'droppedCard1')
                     }
 
                     //If the card doesn't have 'droppedCard1', add it
@@ -220,13 +220,9 @@ function GameView() {
             if(document.getElementById(data).parentElement.childElementCount === 2 && document.getElementById(data).parentElement.id !== 'card_container'){
                 document.getElementById(data).parentElement.removeAttribute('ondrop');
 
+                //Check if the two cards match the room they're in for a solved crime
                 gameController.detectCrime(parentRoomIndex);
             }
-
-            // //After each card drop, check if that card matches a crime and if a crime is solved (Only do this if the card was not put back in the card container, in which case the parentIndex is -1)
-            // if(parentRoomIndex !== -1){
-            //     gameController.detectCrime(parentRoomIndex);
-            // }
         }
     };
 
@@ -243,19 +239,29 @@ function GameView() {
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
-        document.getElementById(suspect).classList.add('flipped');
-        setTimeout(() => {
-            document.getElementById(weapon).classList.add('flipped');
-        }, 50);
+        this.flip = () => {
+
+          setTimeout(() => {
+              document.getElementById(suspect).classList.toggle('flipped');
+              document.getElementById(weapon).classList.toggle('flipped');
+          },20);
+
+        };
+
 
         switch(isCrimeSolved){
             case true:
+                this.flip();
                 document.getElementById(suspect).setAttribute('draggable', false);
                 document.getElementById(weapon).setAttribute('draggable', false);
                 break;
 
             case false:
+                this.flip();
 
+                setTimeout(()=> {
+                    this.flip()
+                }, 4000);
 
         }
     }
