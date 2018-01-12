@@ -18,6 +18,11 @@ function GameController () {
                 this.stats.attempts++;
                 this.stats.accuracy = (this.stats.crimesSolved / this.stats.attempts).toFixed(2);
                 break;
+            case 'newGameStarted':
+                this.stats.crimesSolved = 0;
+                this.stats.gamesPlayed++;
+                this.stats.attempts = 0;
+                this.stats.accuracy = 0.00;
             default:
                 return null;
         }
@@ -53,6 +58,37 @@ function GameController () {
 
             this.calculateStats('matchAttempted')
         }
+
+    };
+
+    this.startNewGame = () => {
+        let suspectArray = ['Mrs_White', 'Professor_Plum', 'Mrs_Peacock', 'Mr_Green', 'Miss_Scarlett', 'Colonel_Mustard'];
+        let weaponsArray = ['Revolver', 'Candlestick', 'Knife', 'Lead_Pipe', 'Wrench', 'Rope'];
+        let roomsArray = ['Billiard_Room', 'Kitchen', 'Conservatory', 'Ballroom', 'Dining_Room', 'Library'];
+        let arrayForCards = ['Mrs_White', 'Professor_Plum', 'Mrs_Peacock', 'Mr_Green', 'Miss_Scarlett', 'Colonel_Mustard', 'Revolver', 'Candlestick', 'Knife', 'Lead_Pipe', 'Wrench', 'Rope'];
+
+        gameView.displayLoadingScreen();
+
+        $('.crime').remove();
+        $('.room').remove();
+        $('.card').remove();
+        gameView.matchedObjects = [
+            {room: 'Ballroom', item1: '', item2: ''},
+            {room: 'Dining_Room', item1: '', item2: ''},
+            {room: 'Library', item1: '', item2: ''},
+            {room: 'Conservatory', item1: '', item2: ''},
+            {room: 'Billiard_Room', item1: '', item2: ''},
+            {room: 'Kitchen', item1: '', item2: ''},
+        ];
+        gameModel.crimes = [];
+        gameModel.randomizedCards = [];
+
+        gameModel.randomizeCards(arrayForCards);
+        gameModel.makeCrimes(roomsArray, suspectArray, weaponsArray);
+        gameView.displayCrimes(gameModel.crimes);
+        gameView.makeCards(gameModel.randomizedCards);
+        gameView.makeRooms(gameModel.crimes);
+        this.calculateStats('newGameStarted');
     };
 }
 

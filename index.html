@@ -10,7 +10,7 @@
         <script src="main.js"></script>
     </head>
 
-    <body>
+<body>
         <div id="statsContainer">
             <div>
                 <h4>Crimes Solved:</h4>
@@ -28,6 +28,7 @@
                 <h4>Match Accuracy:</h4>
                 <p id="accuracy">0.00%</p>
             </div>
+            <button id="newGameButton" onclick="gameController.startNewGame()">New Game</button>
         </div>
         <div id="crimesContainer"> </div>
         <div id="cardContainer" ondrop="gameView.drop(event)" ondragover="gameView.allowDrop(event)"> </div>

@@ -3,9 +3,16 @@
     to{transform: rotateY(180deg);}
 }
 
+@keyframes fade {
+    0%{opacity: 0;}
+    50%{opacity: 1;}
+    100%{opacity: 0;}
+}
+
 body {
     height: 100vh;
     overflow: hidden;
+    margin: 0;
 }
 
 body > div {
@@ -177,5 +184,13 @@ body > div {
     background-size: cover;
     position: relative;
     perspective: 800px;
+}
+
+/*Loading screen for starting a new game*/
+.loadingScreen {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    animation: fade 6s;
 }
 

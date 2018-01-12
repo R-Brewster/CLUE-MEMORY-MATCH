@@ -70,6 +70,15 @@ function GameView() {
         $('#accuracy').text(`${stats.accuracy}%`);
     };
 
+    this.displayLoadingScreen = () => {
+       let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
+        $('body').prepend(loadingScreen);
+
+        setTimeout(() => {
+            $('.loadingScreen').remove();
+        }, 6000)
+    };
+
     //Prevents the default handling of the element as a link (https://www.w3schools.com/html/html5_draganddrop.asp)
     this.allowDrop = (ev) => {
         ev.preventDefault();
@@ -269,6 +278,6 @@ function GameView() {
                 }, 4000);
 
         }
-    }
+    };
 }
 
