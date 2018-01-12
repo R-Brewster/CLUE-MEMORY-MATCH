@@ -67,7 +67,7 @@ function GameView() {
         $('#crimesSolved').text(`${stats.crimesSolved}`);
         $('#gamesPlayed').text(`${stats.gamesPlayed}`);
         $('#attempts').text(`${stats.attempts}`);
-        $('#accuracy').text(stats.accuracy);
+        $('#accuracy').text(`${stats.accuracy}%`);
     };
 
     //Prevents the default handling of the element as a link (https://www.w3schools.com/html/html5_draganddrop.asp)
