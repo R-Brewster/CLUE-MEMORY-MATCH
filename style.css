@@ -13,6 +13,7 @@ body {
     height: 100vh;
     overflow: hidden;
     margin: 0;
+    background-image: url('images/wood.png');
 }
 
 body > div {

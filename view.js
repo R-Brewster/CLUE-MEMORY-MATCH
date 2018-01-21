@@ -251,13 +251,14 @@ function GameView() {
     ];
 
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
+    //Not using .parentElement here, so switched back to jquery for targeting everything in a class
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
         this.flip = () => {
 
           setTimeout(() => {
-              document.getElementById(suspect).classList.toggle('flipped');
-              document.getElementById(weapon).classList.toggle('flipped');
+              $(`#${suspect}`).toggleClass('flipped');
+              $(`#${weapon}`).toggleClass('flipped');
           },20);
 
         };
@@ -265,18 +266,23 @@ function GameView() {
 
         switch(isCrimeSolved){
             case true:
+                $('.card').attr('draggable', false);
                 this.flip();
-                document.getElementById(suspect).setAttribute('draggable', false);
-                document.getElementById(weapon).setAttribute('draggable', false);
+                $(`${suspect}`).attr('draggable', false);
+                $(`${weapon}`).attr('draggable', false);
+                $('.card').attr('draggable', true);
                 break;
 
             case false:
+                $('.card').attr('draggable', false);
                 this.flip();
-
                 setTimeout(()=> {
                     this.flip();
+                    $('.card').attr('draggable', true);
                 }, 4000);
-
+                break;
+            default:
+                return null;
         }
     };
 }
