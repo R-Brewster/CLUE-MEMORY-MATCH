@@ -29,7 +29,7 @@ body {
     width: 30%;
     display: inline-grid;
     grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr [col-4] 1fr;
-    grid-template-rows: [row-1] auto;
+    grid-template-rows: [row-1] auto [row-2] auto;
     grid-gap: 1vh;
     justify-items: center;
     text-align: center;
@@ -51,9 +51,9 @@ body {
 
 #crimesContainer {
     position: relative;
+    margin-top: 0.5vw;
     width: 69%;
     height: 20%;
-    vertical-align: top;
     display: inline-grid;
     grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr [col-4] 1fr [col-5] 1fr [col-6] 1fr;
     grid-template-rows: [row-1] auto;
@@ -208,10 +208,37 @@ body {
     color: antiquewhite;
     font-family: 'Poiret One', cursive;
     font-size: 1vw;
-    position: relative;
+    grid-column-start: col-2;
+    grid-column-end: col-4;
 }
 
 #newGameButton:hover {
    background-color: black;
+}
+
+/*Opening modal */
+.modal-content {
+    background-color: black;
+}
+
+.modal-header {
+    border-bottom: 1px solid antiquewhite;
+}
+
+.modal-footer {
+    border-top: 1px solid antiquewhite;
+}
+
+.modal-footer > button {
+    background-color: transparent;
+    border: 1px solid antiquewhite;
+    color: antiquewhite;
+}
+
+.modal-footer > button:hover {
+    font-weight: bold;
+    background-color: inherit;
+    color: inherit;
+    border: 2px solid antiquewhite;
 }
 
