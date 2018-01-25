@@ -259,7 +259,7 @@ function GameView() {
           setTimeout(() => {
               $(`#${suspect}`).toggleClass('flipped');
               $(`#${weapon}`).toggleClass('flipped');
-          },20);
+          }, 20);
 
         };
 
