@@ -70,6 +70,22 @@ function GameView() {
         $('#accuracy').text(`${stats.accuracy}%`);
     };
 
+    //Add the loading screen on top of everything else, so the cards and rooms can reset
+    this.displayLoadingScreen = () => {
+        let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
+        $('body').prepend(loadingScreen);
+
+        //remove the flipped class after the cards are done flipping, but before the loading screen is removed
+        setTimeout(() => {
+            $('.card').removeClass('flipped')
+        }, 4000);
+
+        setTimeout(() => {
+            $('.loadingScreen').remove();
+        }, 6000);
+
+    };
+
     //Prevents the default handling of the element as a link (https://www.w3schools.com/html/html5_draganddrop.asp)
     this.allowDrop = (ev) => {
         ev.preventDefault();
@@ -242,33 +258,57 @@ function GameView() {
     ];
 
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
+    //Not using .parentElement here, so switched back to jquery for targeting everything in a class
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
         this.flip = () => {
 
           setTimeout(() => {
-              document.getElementById(suspect).classList.toggle('flipped');
-              document.getElementById(weapon).classList.toggle('flipped');
-          },20);
+              $(`#${suspect}`).toggleClass('flipped');
+              $(`#${weapon}`).toggleClass('flipped');
+          }, 20);
 
         };
 
 
         switch(isCrimeSolved){
             case true:
+                $('.card').attr('draggable', false);
                 this.flip();
-                document.getElementById(suspect).setAttribute('draggable', false);
-                document.getElementById(weapon).setAttribute('draggable', false);
+                $(`${suspect}`).attr('draggable', false);
+                $(`${weapon}`).attr('draggable', false);
+                $('.card').attr('draggable', true);
                 break;
 
             case false:
+                $('.card').attr('draggable', false);
                 this.flip();
-
                 setTimeout(()=> {
                     this.flip();
+                    $('.card').attr('draggable', true);
                 }, 4000);
-
+                break;
+            default:
+                return null;
         }
+    };
+
+    this.allCrimesSolved = () => {
+        // let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
+        // let winningMessage = $('<h1>'). text('You solved all of the crimes! Play again?');
+        // let newGameButton = $('#newGameButton').css('z-index', '4');
+        // $('body').prepend(loadingScreen, winningMessage, newGameButton);
+
+        let modalH2 = $('<h2>').text('You solved all of the crimes!');
+        let modalH4 = $('<h4>').text('Want to play again?');
+        let startButton = $('<button>').click(() => {gameController.startNewGame(); $('#startModal').modal('hide')}).text('New Game').addClass('newGameButton').css({
+            position: 'relative',
+            left: '-74%'
+        });
+        $('.modal-body').text('');
+        $('.modal-body').append(modalH2, modalH4);
+        $('.modal-footer').append(startButton);
+        $('#startModal').modal('show');
     }
 }
 
