@@ -55,5 +55,7 @@ function GameModel(){
 
     this.makeCrimes(this.roomsArray, this.suspectArray, this.weaponsArray);
 
+    this.crimesSolvedCounter = 0;
+
 }
 

@@ -47,8 +47,12 @@ function GameController () {
         //If the suspect, room, and item from the matchedObjects (from the gameView) are the same as those in the crime list, the crime has been solved and the view is notified that the crime is solved and the matching items passed in
         if(( (crimeForThisRoom.suspect === possibleCrime.item1 || crimeForThisRoom.suspect === possibleCrime.item2)) && ((crimeForThisRoom.weapon === possibleCrime.item1 || crimeForThisRoom.weapon === possibleCrime.item2))){
             isCrimeSolved = true;
-            console.log('crime solved');
             gameView.flipCards(possibleCrime.item1 , possibleCrime.item2, isCrimeSolved);
+
+            gameModel.crimesSolvedCounter++;
+            if(gameModel.crimesSolvedCounter === 6){
+                gameView.allCrimesSolved();
+            }
 
             this.calculateStats('crimeSolved')
         }
@@ -62,6 +66,7 @@ function GameController () {
 
     };
 
+    //Generates a new game
     this.startNewGame = () => {
         let suspectArray = ['Mrs_White', 'Professor_Plum', 'Mrs_Peacock', 'Mr_Green', 'Miss_Scarlett', 'Colonel_Mustard'];
         let weaponsArray = ['Revolver', 'Candlestick', 'Knife', 'Lead_Pipe', 'Wrench', 'Rope'];

@@ -292,5 +292,23 @@ function GameView() {
                 return null;
         }
     };
+
+    this.allCrimesSolved = () => {
+        // let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
+        // let winningMessage = $('<h1>'). text('You solved all of the crimes! Play again?');
+        // let newGameButton = $('#newGameButton').css('z-index', '4');
+        // $('body').prepend(loadingScreen, winningMessage, newGameButton);
+
+        let modalH2 = $('<h2>').text('You solved all of the crimes!');
+        let modalH4 = $('<h4>').text('Want to play again?');
+        let startButton = $('<button>').click(() => {gameController.startNewGame(); $('#startModal').modal('hide')}).text('New Game').addClass('newGameButton').css({
+            position: 'relative',
+            left: '-74%'
+        });
+        $('.modal-body').text('');
+        $('.modal-body').append(modalH2, modalH4);
+        $('.modal-footer').append(startButton);
+        $('#startModal').modal('show');
+    }
 }
 
