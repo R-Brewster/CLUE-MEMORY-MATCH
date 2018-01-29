@@ -197,6 +197,7 @@ body {
     background-size: cover;
     position: relative;
     perspective: 800px;
+    z-index: -1;
 }
 
 /*Loading screen for starting a new game*/

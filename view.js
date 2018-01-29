@@ -121,7 +121,9 @@ function GameView() {
 
             //If the parent element has two children, allow ondrop events again (this card is being removed from this room, so more cards should be allowed in)
             if($(`#${ev.target.id}`).parent().children().length === 2) {
-                $(`#${ev.target.id}`).parent().attr('ondrop', 'gameView.drop(event)')
+                $(`#${ev.target.id}`).parent().droppable({
+                    drop: (event) => {this.handleDrop(event, this.cardDragged)}
+                });
             }
 
             //If the card is being removed from a room, we'll need to know if it's an item1 or item2
@@ -262,7 +264,7 @@ function GameView() {
 
             //If the room has two items already matched, prevent any more cards being added by removing the ondrop attribute (unless the cards are being put back in )
             if( $(`#${cardId}`).parent().children().length === 2 &&  $(`#${cardId}`).parent().attr('id') !== 'card_container'){
-                $(`#${cardId}`).parent().removeAttr('ondrop');
+                $(`#${cardId}`).parent().droppable('disable');
 
                 //Check if the two cards match the room they're in for a solved crime
                 gameController.detectCrime(parentRoomIndex);
