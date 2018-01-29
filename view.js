@@ -25,10 +25,17 @@ function GameView() {
     this.makeCards =  (randomizedCards) => {
         for(let i=0; i<12; i++){
             //Text is added on the card for dragging and dropping (data type is set to text)
+            // let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
+            //     id: randomizedCards[i],
+            //     draggable: 'true',
+            //     ondragstart: 'gameView.drag(event)'
+            // });
             let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
                 id: randomizedCards[i],
-                draggable: 'true',
-                ondragstart: 'gameView.drag(event)'
+            });
+
+            $('.card').draggable({
+                drag: 'gameView.drag(event)'
             });
 
             let cardBack = $('<div>').text(randomizedCards[i]).addClass('cardBack');
