@@ -26,33 +26,31 @@ function GameView() {
     //Create the cards and append them to the card container
     this.makeCards =  (randomizedCards) => {
         for(let i=0; i<12; i++){
-            //Text is added on the card for dragging and dropping (data type is set to text)
-            // let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
-            //     id: randomizedCards[i],
-            //     draggable: 'true',
-            //     ondragstart: 'gameView.drag(event)'
-            // });
             let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
                 id: randomizedCards[i],
-            });
-
-            $('.card').draggable({
-                start: (event, ui) => { jQuery.event.props.push('dataTransfer');  this.cardDragged = event.target; this.handleDrag(event, ui)},
-                containment: '#draggableArea',
-                // stop: (event,ui) => {this.handleDrop(event, ui)},
             });
 
             let cardBack = $('<div>').text(randomizedCards[i]).addClass('cardBack');
 
             let cardFront = $('<div>').text(randomizedCards[i]).addClass('cardFront').css({
                 backgroundImage: `url(images/${randomizedCards[i]}.png)`,
-                // display: 'none',
             });
 
             $('#cardContainer').append(card);
 
             $(`#${randomizedCards[i]}`).append(cardFront, cardBack, );
         }
+
+        $('.card').draggable({
+            start: (event, ui) => { jQuery.event.props.push('dataTransfer');  this.cardDragged = event.target; this.handleDrag(event, ui);  $(`${event.target.id}`).css('z-index', '5');},
+            stop: () => {$(`${event.target.id}`).css('z-index', '2')},
+            containment: '#draggableArea',
+            opacity: 0.35,
+        });
+
+        $('#cardContainer').droppable({
+            drop: (event) => {this.handleDrop(event, this.cardDragged)}
+        });
 
     };
 
@@ -61,22 +59,15 @@ function GameView() {
     //Create the rooms and append them to the room container
     this.makeRooms = (crimes) => {
         for(let i=0; i<6; i++){
-            // let room = $('<div>').addClass('room').css('background-image', `url(images/${crimes[i].room}.png`).attr({
-            //     id: crimes[i].room,
-            //     ondrop: 'gameView.drop(event)',
-            //     ondragover: 'gameView.allowDrop(event)',
-            // });
-
             let room = $('<div>').addClass('room').css('background-image', `url(images/${crimes[i].room}.png`).attr({
                 id: crimes[i].room,
             });
 
-            $('.room').droppable({
-                drop: (event) => {this.handleDrop(event, this.cardDragged)}
-            });
-
             $('#roomsContainer').append(room);
         }
+        $('.room').droppable({
+            drop: (event) => {this.handleDrop(event, this.cardDragged)}
+        });
     };
 
     this.makeRooms(this.crimes);
@@ -112,12 +103,10 @@ function GameView() {
 
     //Sets the data type and value
     this.handleDrag = (ev) => {
-
-        // if(ev.target.id !== ""){
-        //
-        //     ev.dataTransfer.setData("text", ev.target.id);
-        // ev.dataTransfer = {"text": ev.target.id};
-        // $(`#${ev.target.id}`).append()
+        //If a card is being moved from a room that had 2 cards (so droppable was disabled) this enables dropping events for that room again, but just for room tiles and not the card container
+        if( $(`#${ev.target.id}`).parent()[0].id !== 'cardContainer'){
+            $(`#${ev.target.id}`).parent().droppable('enable')
+        };
 
             //If the parent element has two children, allow ondrop events again (this card is being removed from this room, so more cards should be allowed in)
             if($(`#${ev.target.id}`).parent().children().length === 2) {
@@ -156,21 +145,21 @@ function GameView() {
         // }
     };
 
-    //Declares the data being moved and appends it to the element that it's being dropped on, then uses the information from the dropped element and its new parent to create a matchedObjects array for the model
-
     this.handleDrop = (ev, card) =>{
-        //Prevents error resulting from this being read before a drag and drop event has happened
-        // if(ev.dataTransfer !== undefined) {
-        //     ev.preventDefault();
-        //     let data = ev.dataTransfer.getData("text");
-        // let card = card.helper;
-
-            //If the div the card will be dropped into is a room, append the card to that div then add a class to fit in the room
-            if(ev.target.className === "room ui-droppable"){
+            //If the div the card will be dropped into is a room (or the game container), append the card to that div then add a class to fit in the room
+            if(ev.target.className === "room ui-droppable" || "ui-droppable"){
 
                 cardId = card.id;
 
                 ev.target.append($(`#${cardId}`)[0]);
+
+                //If the card is being dropped back into the card container, any droppedCard classes need to be removed
+                if($(`#${cardId}`).hasClass('droppedCard1')) {
+                    $(`#${cardId}`).removeClass('droppedCard1')
+                }
+                else if ($(`#${cardId}`).hasClass('droppedCard2')) {
+                    $(`#${cardId}`).removeClass('droppedCard2')
+                }
 
                 //If this card is the only child of the room div, give it droppedCard1
                 if($(`#${cardId}`).parent().children().length === 1){
@@ -218,8 +207,6 @@ function GameView() {
                 }
             }
 
-            //If the player changes their mind and tries to put the card back in place after it's already been picked up, we need to remove the card so it can be put back
-            // else if ( ev.target.className === "cardBack" ||  ev.target.className === "cardFront") {
             else if ( ev.target.className === "card droppedCard1" || ev.target.className === "card droppedCard2") {
                 let roomOfCard =   $(`#${cardId}`).parent();
                 let card =  $(`#${cardId}`);
@@ -228,7 +215,6 @@ function GameView() {
                 roomOfCard.append(card);
             }
 
-            //If the card is being dropped back into the card container, remove the dropCard class added if it was dropped into a room previously, then append to the card container
             else {
                 let whichDroppedCardClass =   $(`#${cardId}`).attr('class');
 
@@ -269,7 +255,6 @@ function GameView() {
                 //Check if the two cards match the room they're in for a solved crime
                 gameController.detectCrime(parentRoomIndex);
             }
-        // }
     };
 
     //Used to record what cards have been dropped into which rooms
@@ -283,7 +268,6 @@ function GameView() {
     ];
 
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
-    //Not using .parentElement here, so switched back to jquery for targeting everything in a class
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
         this.flip = () => {
@@ -298,19 +282,19 @@ function GameView() {
 
         switch(isCrimeSolved){
             case true:
-                $('.card').attr('draggable', false);
+                $('.card').draggable('disable');
                 this.flip();
-                $(`${suspect}`).attr('draggable', false);
-                $(`${weapon}`).attr('draggable', false);
-                $('.card').attr('draggable', true);
+                $(`${suspect}`).draggable('disable');
+                $(`${weapon}`).draggable('disable');
+                $('.card').draggable('enable');
                 break;
 
             case false:
-                $('.card').attr('draggable', false);
+                $('.card').draggable('disable');
                 this.flip();
                 setTimeout(()=> {
                     this.flip();
-                    $('.card').attr('draggable', true);
+                    $('.card').draggable('enable');
                 }, 4000);
                 break;
             default:
@@ -319,11 +303,6 @@ function GameView() {
     };
 
     this.allCrimesSolved = () => {
-        // let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
-        // let winningMessage = $('<h1>'). text('You solved all of the crimes! Play again?');
-        // let newGameButton = $('#newGameButton').css('z-index', '4');
-        // $('body').prepend(loadingScreen, winningMessage, newGameButton);
-
         let modalH2 = $('<h2>').text('You solved all of the crimes!');
         let modalH4 = $('<h4>').text('Want to play again?');
         let startButton = $('<button>').click(() => {gameController.startNewGame(); $('#startModal').modal('hide')}).text('New Game').addClass('newGameButton').css({

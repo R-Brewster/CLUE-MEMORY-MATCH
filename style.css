@@ -9,6 +9,10 @@
     100%{opacity: 0;}
 }
 
+html {
+    pointer-events: none;
+}
+
 body {
     height: 100vh;
     overflow: hidden;
@@ -114,6 +118,13 @@ body {
     transition: transform 1s;
     font-size: 0;
     z-index: 2;
+    pointer-events: auto;
+    /* If a card is dropped back into the card container, an inline style is applied, this overrides that */
+    left: inherit !important;
+    top: inherit !important;
+}
+.card:hover {
+    cursor: move;
 }
 
 .cardBack {
@@ -148,12 +159,12 @@ body {
     pointer-events: none;
 }
 
-/*Two dropped card classes to prevent the cards from overlapping, since they're absolutely positioned*/
 .droppedCard1 {
     height: 25vh;
     width: 17vh;
-    left: 2vh;
-    top: 4vh;
+    /* inline styling appearing on card drop, !important is overriding that*/
+    left: 2vh !important; 
+    top: 4vh !important;
     position: absolute;
     margin: 1vh;
     display: inline-block;
@@ -162,8 +173,8 @@ body {
 .droppedCard2 {
     height: 25vh;
     width: 17vh;
-    left: 22vh;
-    top: 4vh;
+    left: 22vh !important;
+    top: 4vh !important;
     position: absolute;
     margin: 1vh;
     display: inline-block;
@@ -218,6 +229,7 @@ body {
     grid-column-start: col-2;
     grid-column-end: col-4;
     box-sizing: border-box;
+    pointer-events: auto;
 }
 
 #newGameButton:hover {
@@ -241,6 +253,7 @@ body {
     background-color: transparent;
     border: 1px solid antiquewhite;
     color: antiquewhite;
+    pointer-events: auto;
 }
 
 .modal-footer > button:hover {
