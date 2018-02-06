@@ -1,19 +1,102 @@
+@keyframes flip {
+    from{transform: rotateY(0deg);}
+    to{transform: rotateY(180deg);}
+}
+
+@keyframes fade {
+    0%{opacity: 0;}
+    50%{opacity: 1;}
+    100%{opacity: 0;}
+}
+
+html {
+    pointer-events: none;
+    overflow: hidden;
+}
+
 body {
     height: 100vh;
+    overflow: hidden;
+    margin: 0;
+    background-image: url('images/wood.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: antiquewhite;
+    font-family: 'Poiret One', cursive;
+    font-size: 1.2vw;
+    user-select: none;
 }
 
-body > div {
-    border: 2px solid black;
+#draggableArea {
+    height: 100%;
+    width: 100%;
 }
 
-#card_container {
+/*Stats container and statistics*/
 
+#statsContainer {
+    height: 20%;
+    width: 30%;
+    display: inline-grid;
+    grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr [col-4] 1fr;
+    grid-template-rows: [row-1] auto [row-2] auto;
+    grid-gap: 1vh;
+    justify-items: center;
+    text-align: center;
 }
 
-#card_container {
+#statsContainer > div {
+    grid-column-start: auto;
+    grid-column-end: auto;
+    grid-row-start: auto;
+    grid-row-end: auto;
+}
+
+#statsContainer > div > h4 {
+    margin-top: 0;
+    font-family: 'Limelight', cursive;
+}
+
+/*Crime container and crimes*/
+
+#crimesContainer {
+    position: relative;
+    margin-top: 0.5vw;
+    width: 69%;
+    height: 20%;
+    display: inline-grid;
+    grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr [col-4] 1fr [col-5] 1fr [col-6] 1fr;
+    grid-template-rows: [row-1] auto;
+    grid-gap: 2vh;
+    justify-items: center;
+    align-items: center;
+}
+
+.crime {
+    height: 100%;
+    width: 100%;
+    grid-column-start: auto;
+    grid-column-end: auto;
+    grid-row-start: auto;
+    grid-row-end: auto;
+}
+
+.crimeTitle {
+    margin: 0;
+    font-family: 'Limelight', cursive;
+}
+
+.crimeText {
+    margin-top: 1vw;
+}
+
+/*Card container and cards*/
+
+#cardContainer {
     position: relative;
     width: 30%;
-    height: 100%;
+    height: 75%;
+    margin-top: 1vw;
     vertical-align: top;
     display: inline-grid;
     grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr;
@@ -23,7 +106,98 @@ body > div {
     align-items: center;
 }
 
-#card_container > .card {
+/*Flipping motion based on: https://desandro.github.io/3dtransforms/docs/card-flip.html*/
+.card {
+    height: 100%;
+    width: 65%;
+    grid-column-start: auto;
+    grid-column-end: auto;
+    grid-row-start: auto;
+    grid-row-end: auto;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s;
+    font-size: 0;
+    z-index: 2;
+    pointer-events: auto;
+    /* If a card is dropped back into the card container, an inline style is applied, this overrides that */
+    left: inherit !important;
+    top: inherit !important;
+}
+.card:hover {
+    cursor: move;
+}
+
+.cardBack {
+    background-image: url(./images/clue_small.png);
+    background-size: 100%;
+    background-color: firebrick;
+    background-position-y: 50%;
+    background-repeat: no-repeat;
+    box-shadow: 0 0 0 5px black inset;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+    pointer-events: none;
+}
+
+.cardFront {
+    height: 100%;
+    width: 100%;
+    top: 0;
+    background-size: 100%;
+    background-position-x: -2%;
+    box-shadow: 0 0 0 5px black inset;
+    position: absolute;
+    transform: rotateY( 180deg );
+    pointer-events: none;
+    backface-visibility: hidden;
+}
+
+.card.flipped {
+    transform: rotateY( 180deg );
+    pointer-events: none;
+}
+
+.droppedCard1 {
+    height: 25vh;
+    width: 17vh;
+    /* inline styling appearing on card drop, !important is overriding that*/
+    left: 2vh !important; 
+    top: 4vh !important;
+    position: absolute;
+    margin: 1vh;
+    display: inline-block;
+}
+
+.droppedCard2 {
+    height: 25vh;
+    width: 17vh;
+    left: 22vh !important;
+    top: 4vh !important;
+    position: absolute;
+    margin: 1vh;
+    display: inline-block;
+}
+
+/*Room container and rooms*/
+
+#roomsContainer {
+    position: relative;
+    width: 69%;
+    height: 75%;
+    margin-top: 1vw;
+    vertical-align: top;
+    display: inline-grid;
+    grid-template-columns: [col-1] 1fr [col-2] 1fr [col-3] 1fr;
+    grid-template-rows: [row-1] auto [row-2] auto;
+    grid-gap: 4vh;
+    justify-items: center;
+    align-items: center;
+}
+
+.room {
     height: 100%;
     width: 100%;
     border: 1px solid black;
@@ -31,11 +205,62 @@ body > div {
     grid-column-end: auto;
     grid-row-start: auto;
     grid-row-end: auto;
+    white-space: nowrap;
+    background-size: cover;
+    position: relative;
+    perspective: 800px;
+    z-index: -1;
 }
 
-#rooms_container {
+/*Loading screen for starting a new game*/
+.loadingScreen {
     position: relative;
-    display: inline-block;
-    width: 67%;
-    height: 100%
+    height: 100%;
+    width: 100%;
+    animation: fade 6s;
 }
+
+/*Start game button */
+.newGameButton {
+    background-color: transparent;
+    border: 2px solid antiquewhite;
+    color: antiquewhite;
+    font-family: 'Poiret One', cursive;
+    font-size: 1vw;
+    grid-column-start: col-2;
+    grid-column-end: col-4;
+    box-sizing: border-box;
+    pointer-events: auto;
+}
+
+#newGameButton:hover {
+   background-color: black;
+}
+
+/*Opening modal */
+.modal-content {
+    background-color: black;
+}
+
+.modal-header {
+    border-bottom: 1px solid antiquewhite;
+}
+
+.modal-footer {
+    border-top: 1px solid antiquewhite;
+}
+
+.modal-footer > button {
+    background-color: transparent;
+    border: 1px solid antiquewhite;
+    color: antiquewhite;
+    pointer-events: auto;
+}
+
+.modal-footer > button:hover {
+    font-weight: bold;
+    background-color: inherit;
+    color: inherit;
+    border: 2px solid antiquewhite;
+}
+

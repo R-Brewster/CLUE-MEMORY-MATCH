@@ -1,0 +1,23 @@
+{
+  "name": "memory_match_version2",
+  "version": "1.0.0",
+  "description": "A memory match game based on the clue boardgame",
+  "main": "main.js",
+  "dependencies": {
+    "jquery-ui-touch-punch": "^0.2.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/R-Brewster/memory_match_version2.git"
+  },
+  "author": "Rebecca Brewster",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/R-Brewster/memory_match_version2/issues"
+  },
+  "homepage": "https://github.com/R-Brewster/memory_match_version2#readme"
+}
