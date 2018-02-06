@@ -39,7 +39,7 @@ function GameController () {
 
         //Matches the room the cards were dropped into to the room in the generated crime list
         let crimeForThisRoom =  gameModel.crimes.find((crime) => {
-           return (crime.room) === possibleCrime.room
+            return (crime.room) === possibleCrime.room
         });
 
         let isCrimeSolved = '';
@@ -97,4 +97,5 @@ function GameController () {
         this.calculateStats('newGameStarted');
     };
 }
+
 

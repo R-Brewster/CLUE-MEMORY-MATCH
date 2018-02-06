@@ -58,4 +58,3 @@ function GameModel(){
     this.crimesSolvedCounter = 0;
 
 }
-
