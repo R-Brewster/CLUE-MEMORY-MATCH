@@ -21,27 +21,36 @@ function GameView() {
 
     this.displayCrimes(this.crimes);
 
+    this.cardDragged = '';
+
     //Create the cards and append them to the card container
     this.makeCards =  (randomizedCards) => {
         for(let i=0; i<12; i++){
-            //Text is added on the card for dragging and dropping (data type is set to text)
             let card = $('<div>').text(randomizedCards[i]).addClass('card').attr({
                 id: randomizedCards[i],
-                draggable: 'true',
-                ondragstart: 'gameView.drag(event)'
             });
 
             let cardBack = $('<div>').text(randomizedCards[i]).addClass('cardBack');
 
             let cardFront = $('<div>').text(randomizedCards[i]).addClass('cardFront').css({
                 backgroundImage: `url(images/${randomizedCards[i]}.png)`,
-                // display: 'none',
             });
 
             $('#cardContainer').append(card);
 
             $(`#${randomizedCards[i]}`).append(cardFront, cardBack, );
         }
+
+        $('.card').draggable({
+            start: (event, ui) => { jQuery.event.props.push('dataTransfer');  this.cardDragged = event.target; this.handleDrag(event, ui);  $(`${event.target.id}`).css('z-index', '5');},
+            stop: () => {$(`${event.target.id}`).css('z-index', '2')},
+            containment: '#draggableArea',
+            opacity: 0.35,
+        });
+
+        $('#cardContainer').droppable({
+            drop: (event) => {this.handleDrop(event, this.cardDragged)}
+        });
 
     };
 
@@ -52,12 +61,13 @@ function GameView() {
         for(let i=0; i<6; i++){
             let room = $('<div>').addClass('room').css('background-image', `url(images/${crimes[i].room}.png`).attr({
                 id: crimes[i].room,
-                ondrop: 'gameView.drop(event)',
-                ondragover: 'gameView.allowDrop(event)',
             });
 
             $('#roomsContainer').append(room);
         }
+        $('.room').droppable({
+            drop: (event) => {this.handleDrop(event, this.cardDragged)}
+        });
     };
 
     this.makeRooms(this.crimes);
@@ -92,14 +102,17 @@ function GameView() {
     };
 
     //Sets the data type and value
-    //Switched to core JS since it seems easier to use for the parentElement and childElementCount properties
-    this.drag = (ev) => {
-        if(ev.target.id !== ""){
-            ev.dataTransfer.setData("text", ev.target.id);
+    this.handleDrag = (ev) => {
+        //If a card is being moved from a room that had 2 cards (so droppable was disabled) this enables dropping events for that room again, but just for room tiles and not the card container
+        if( $(`#${ev.target.id}`).parent()[0].id !== 'cardContainer'){
+            $(`#${ev.target.id}`).parent().droppable('enable')
+        };
 
             //If the parent element has two children, allow ondrop events again (this card is being removed from this room, so more cards should be allowed in)
-            if(document.getElementById(ev.target.id).parentElement.childElementCount === 2) {
-                document.getElementById(ev.target.id).parentElement.setAttribute('ondrop', 'gameView.drop(event)')
+            if($(`#${ev.target.id}`).parent().children().length === 2) {
+                $(`#${ev.target.id}`).parent().droppable({
+                    drop: (event) => {this.handleDrop(event, this.cardDragged)}
+                });
             }
 
             //If the card is being removed from a room, we'll need to know if it's an item1 or item2
@@ -129,122 +142,119 @@ function GameView() {
                 default:
                     return null;
             }
-        }
+        // }
     };
 
-    //Declares the data being moved and appends it to the element that it's being dropped on, then uses the information from the dropped element and its new parent to create a matchedObjects array for the model
+    this.handleDrop = (ev, card) =>{
+            //If the div the card will be dropped into is a room (or the game container), append the card to that div then add a class to fit in the room
+            if(ev.target.className === "room ui-droppable" || "ui-droppable"){
 
-    this.drop = (ev) =>{
-        //Prevents error resulting from this being read before a drag and drop event has happened
-        if(ev.dataTransfer !== undefined) {
-            ev.preventDefault();
-            let data = ev.dataTransfer.getData("text");
+                cardId = card.id;
 
-            //If the div the card will be dropped into is a room, append the card to that div then add a class to fit in the room
-            if(ev.target.className === "room"){
-                ev.target.appendChild(document.getElementById(data));
+                ev.target.append($(`#${cardId}`)[0]);
+
+                //If the card is being dropped back into the card container, any droppedCard classes need to be removed
+                if($(`#${cardId}`).hasClass('droppedCard1')) {
+                    $(`#${cardId}`).removeClass('droppedCard1')
+                }
+                else if ($(`#${cardId}`).hasClass('droppedCard2')) {
+                    $(`#${cardId}`).removeClass('droppedCard2')
+                }
 
                 //If this card is the only child of the room div, give it droppedCard1
-                if(document.getElementById(data).previousSibling === null){
+                if($(`#${cardId}`).parent().children().length === 1){
 
                     //If the card is coming from another room where it was 'droppedCard2', it  needs to become 'droppedCard1'
-                    if(document.getElementById(data).classList.contains('droppedCard2')){
-                        document.getElementById(data).classList.replace('droppedCard2', 'droppedCard1')
+                    if($(`#${cardId}`).hasClass('droppedCard2')){
+                        $(`#${cardId}`).removeClass('droppedCard2').addClass( 'droppedCard1')
                     }
 
                     //If the card doesn't have 'droppedCard1', add it
-                    else if(!document.getElementById(data).classList.contains('droppedCard1')){
-                        document.getElementById(data).classList.add('droppedCard1')
+                    else if(!$(`#${cardId}`).hasClass('droppedCard1')){
+                        $(`#${cardId}`).addClass('droppedCard1')
                     }
 
                 }
                 //If another sibling is present, we first need to figure out which droppedCard class it has then give this card the other droppedCard class
                 else {
-                    let siblingDroppedCardClassList = document.getElementById(data).previousSibling.classList;
+                    let siblingDroppedCardClassList = $(`#${cardId}`).siblings();
                     let siblingDroppedCardClass = '';
 
-                     if(siblingDroppedCardClassList.contains('droppedCard1')){
+                     if(siblingDroppedCardClassList.hasClass('droppedCard1')){
                          siblingDroppedCardClass = 'droppedCard1'
                      }
-                     else if (siblingDroppedCardClassList.contains('droppedCard2')) {
+                     else if (siblingDroppedCardClassList.hasClass('droppedCard2')) {
                          siblingDroppedCardClass = 'droppedCard2'
                      }
 
                     switch(siblingDroppedCardClass){
                         case 'droppedCard1':
-                            if(document.getElementById(data).classList.contains('droppedCard1')){
-                                document.getElementById(data).classList.replace('droppedCard1', 'droppedCard2');
-                                // document.getElementById(data).classList.add('droppedCard2');
+                            if($(`#${cardId}`).hasClass('droppedCard1')){
+                                $(`#${cardId}`).removeClass('droppedCard1').addClass('droppedCard2');
                             }
                             else{
-                                document.getElementById(data).classList.add('droppedCard2');
+                                $(`#${cardId}`).addClass('droppedCard2');
                             }
                             break;
                         case 'droppedCard2':
-                            if(document.getElementById(data).classList.contains('droppedCard2')){
-                                document.getElementById(data).classList.replace('droppedCard2', 'droppedCard1');
-                                // document.getElementById(data).classList.add('droppedCard1');
+                            if($(`#${cardId}`).hasClass('droppedCard2')){
+                                $(`#${card}`).removeClass('droppedCard2').addClass('droppedCard1');
                             }
                             else{
-                                document.getElementById(data).classList.add('droppedCard1');
+                                $(`#${cardId}`).addClass('droppedCard1');
                             }
-                        console.log('card classes', document.getElementById(data).classList)
                     }
                 }
             }
 
-            //If the player changes their mind and tries to put the card back in place after it's already been picked up, we need to remove the card so it can be put back
-            // else if ( ev.target.className === "cardBack" ||  ev.target.className === "cardFront") {
             else if ( ev.target.className === "card droppedCard1" || ev.target.className === "card droppedCard2") {
-                let roomOfCard =  document.getElementById(data).parentElement;
-                let card = document.getElementById(data);
+                let roomOfCard =   $(`#${cardId}`).parent();
+                let card =  $(`#${cardId}`);
 
-                roomOfCard.removeChild(card);
+                roomOfCard.remove(card);
                 roomOfCard.append(card);
             }
 
-            //If the card is being dropped back into the card container, remove the dropCard class added if it was dropped into a room previously, then append to the card container
             else {
-                let whichDroppedCardClass =  document.getElementById(data).classList[1];
+                let whichDroppedCardClass =   $(`#${cardId}`).attr('class');
 
                 switch(whichDroppedCardClass){
-                    case 'droppedCard1':
-                        document.getElementById(data).classList.remove('droppedCard1');
+                    case 'card droppedCard1':
+                        $(`#${cardId}`).removeClass('droppedCard1');
                         break;
-                    case 'droppedCard2':
-                        document.getElementById(data).classList.remove('droppedCard2');
+                    case 'card droppedCard2':
+                        $(`#${cardId}`).removeClass('droppedCard2');
                         break;
                     default:
                         return null;
                 }
 
-                ev.target.appendChild(document.getElementById(data));
+                ev.target.append( $(`#${cardId}`)[0]);
             }
 
 
             //Uses the room the card was dropped into (is now the parent element of the card) to find the index of the room in the crime list (and change id that has underscore to space so it matches what's in the crime list)
             let parentRoomIndex = this.matchedObjects.findIndex((crime) => {
-                return crime.room === document.getElementById(data).parentElement.id
+                return crime.room ===  $(`#${cardId}`).parent().attr('id')
             });
 
             //Item 1 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
             if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item1 === ''){
-                this.matchedObjects[parentRoomIndex].item1 = document.getElementById(data).id
+                this.matchedObjects[parentRoomIndex].item1 =  $(`#${cardId}`).attr('id')
             }
 
             //Item 2 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
             else if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item2 === ''){
-                this.matchedObjects[parentRoomIndex].item2 = document.getElementById(data).id;
+                this.matchedObjects[parentRoomIndex].item2 =  $(`#${cardId}`).attr('id');
             }
 
             //If the room has two items already matched, prevent any more cards being added by removing the ondrop attribute (unless the cards are being put back in )
-            if(document.getElementById(data).parentElement.childElementCount === 2 && document.getElementById(data).parentElement.id !== 'card_container'){
-                document.getElementById(data).parentElement.removeAttribute('ondrop');
+            if( $(`#${cardId}`).parent().children().length === 2 &&  $(`#${cardId}`).parent().attr('id') !== 'card_container'){
+                $(`#${cardId}`).parent().droppable('disable');
 
                 //Check if the two cards match the room they're in for a solved crime
                 gameController.detectCrime(parentRoomIndex);
             }
-        }
     };
 
     //Used to record what cards have been dropped into which rooms
@@ -258,7 +268,6 @@ function GameView() {
     ];
 
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
-    //Not using .parentElement here, so switched back to jquery for targeting everything in a class
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
         this.flip = () => {
@@ -273,19 +282,19 @@ function GameView() {
 
         switch(isCrimeSolved){
             case true:
-                $('.card').attr('draggable', false);
+                $('.card').draggable('disable');
                 this.flip();
-                $(`${suspect}`).attr('draggable', false);
-                $(`${weapon}`).attr('draggable', false);
-                $('.card').attr('draggable', true);
+                $(`${suspect}`).draggable('disable');
+                $(`${weapon}`).draggable('disable');
+                $('.card').draggable('enable');
                 break;
 
             case false:
-                $('.card').attr('draggable', false);
+                $('.card').draggable('disable');
                 this.flip();
                 setTimeout(()=> {
                     this.flip();
-                    $('.card').attr('draggable', true);
+                    $('.card').draggable('enable');
                 }, 4000);
                 break;
             default:
@@ -294,11 +303,6 @@ function GameView() {
     };
 
     this.allCrimesSolved = () => {
-        // let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
-        // let winningMessage = $('<h1>'). text('You solved all of the crimes! Play again?');
-        // let newGameButton = $('#newGameButton').css('z-index', '4');
-        // $('body').prepend(loadingScreen, winningMessage, newGameButton);
-
         let modalH2 = $('<h2>').text('You solved all of the crimes!');
         let modalH4 = $('<h4>').text('Want to play again?');
         let startButton = $('<button>').click(() => {gameController.startNewGame(); $('#startModal').modal('hide')}).text('New Game').addClass('newGameButton').css({
