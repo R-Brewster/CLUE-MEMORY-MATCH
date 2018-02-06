@@ -181,6 +181,10 @@ body {
     display: inline-block;
 }
 
+.matchedCard {
+    border: 6px solid firebrick;
+}
+
 /*Room container and rooms*/
 
 #roomsContainer {
@@ -237,7 +241,7 @@ body {
    background-color: black;
 }
 
-/*Opening modal */
+/*Opening and win modals */
 .modal-content {
     background-color: black;
 }
@@ -262,5 +266,10 @@ body {
     background-color: inherit;
     color: inherit;
     border: 2px solid antiquewhite;
+}
+
+#winModal .modal-footer > :nth-child(1) {
+    position: relative;
+    left: -71%;
 }
 

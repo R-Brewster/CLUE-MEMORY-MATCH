@@ -271,7 +271,7 @@ function GameView() {
     this.flipCards = (suspect, weapon, isCrimeSolved) => {
 
         this.flip = () => {
-
+          //The setTimeout ensures that both cards flip at the same time
           setTimeout(() => {
               $(`#${suspect}`).toggleClass('flipped');
               $(`#${weapon}`).toggleClass('flipped');
@@ -284,8 +284,11 @@ function GameView() {
             case true:
                 $('.card').draggable('disable');
                 this.flip();
-                $(`${suspect}`).draggable('disable');
-                $(`${weapon}`).draggable('disable');
+                //The setTimeout ensures that the border that appears on winning cards will appear during the flip animation
+                setTimeout(() => {
+                    $(`#${suspect}`).draggable('disable').addClass('matchedCard');
+                    $(`#${weapon}`).draggable('disable').addClass('matchedCard');
+                }, 300)
                 $('.card').draggable('enable');
                 break;
 
@@ -295,7 +298,7 @@ function GameView() {
                 setTimeout(()=> {
                     this.flip();
                     $('.card').draggable('enable');
-                }, 4000);
+                }, 3000);
                 break;
             default:
                 return null;
@@ -303,16 +306,16 @@ function GameView() {
     };
 
     this.allCrimesSolved = () => {
-        let modalH2 = $('<h2>').text('You solved all of the crimes!');
-        let modalH4 = $('<h4>').text('Want to play again?');
-        let startButton = $('<button>').click(() => {gameController.startNewGame(); $('#startModal').modal('hide')}).text('New Game').addClass('newGameButton').css({
-            position: 'relative',
-            left: '-74%'
-        });
-        $('.modal-body').text('');
-        $('.modal-body').append(modalH2, modalH4);
-        $('.modal-footer').append(startButton);
-        $('#startModal').modal('show');
+        // let modalH2 = $('<h2>').text('You solved all of the crimes!');
+        // let modalH4 = $('<h4>').text('Want to play again?');
+        // let startButton = $('<button>').click(() => {gameController.startNewGame(); $('#startModal').modal('hide')}).text('New Game').addClass('newGameButton').css({
+        //     position: 'relative',
+        //     left: '-74%'
+        // });
+        // $('.modal-body').text('');
+        // $('.modal-body').append(modalH2, modalH4);
+        // $('.modal-footer').append(startButton);
+        $('#winModal').modal('show');
     }
 }
 

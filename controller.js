@@ -16,7 +16,7 @@ function GameController () {
                 break;
             case 'matchAttempted':
                 this.stats.attempts++;
-                this.stats.accuracy =  (100 *(this.stats.crimesSolved / this.stats.attempts)).toFixed(0);
+                this.stats.accuracy =  (100 *(this.stats.crimesSolved / this.stats.attempts )).toFixed(0);
                 break;
             case 'newGameStarted':
                 this.stats.crimesSolved = 0;
@@ -27,7 +27,6 @@ function GameController () {
             default:
                 return null;
         }
-        console.log('current stats', this.stats);
         gameView.showStats(this.stats)
     };
 
@@ -50,7 +49,10 @@ function GameController () {
             gameView.flipCards(possibleCrime.item1 , possibleCrime.item2, isCrimeSolved);
 
             gameModel.crimesSolvedCounter++;
+
             if(gameModel.crimesSolvedCounter === 6){
+                console.log('all crimes solved', gameModel.crimesSolvedCounter)
+                console.log('current stats', this.stats);
                 gameView.allCrimesSolved();
             }
 
@@ -78,6 +80,7 @@ function GameController () {
         $('.crime').remove();
         $('.room').remove();
         $('.card').remove();
+
         gameView.matchedObjects = [
             {room: 'Ballroom', item1: '', item2: ''},
             {room: 'Dining_Room', item1: '', item2: ''},
@@ -94,6 +97,9 @@ function GameController () {
         gameView.displayCrimes(gameModel.crimes);
         gameView.makeCards(gameModel.randomizedCards);
         gameView.makeRooms(gameModel.crimes);
+
+        gameModel.crimesSolvedCounter = 0;
+
         this.calculateStats('newGameStarted');
     };
 }
