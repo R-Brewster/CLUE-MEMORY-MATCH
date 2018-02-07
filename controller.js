@@ -41,12 +41,17 @@ function GameController () {
            return (crime.room) === possibleCrime.room
         });
 
+        let crimeForThisRoomIndex =  gameModel.crimes.findIndex((crime) => {
+            return (crime.room) === possibleCrime.room
+         });
+
         let isCrimeSolved = '';
 
         //If the suspect, room, and item from the matchedObjects (from the gameView) are the same as those in the crime list, the crime has been solved and the view is notified that the crime is solved and the matching items passed in
         if(( (crimeForThisRoom.suspect === possibleCrime.item1 || crimeForThisRoom.suspect === possibleCrime.item2)) && ((crimeForThisRoom.weapon === possibleCrime.item1 || crimeForThisRoom.weapon === possibleCrime.item2))){
             isCrimeSolved = true;
-            gameView.flipCards(possibleCrime.item1 , possibleCrime.item2, isCrimeSolved);
+            console.log('crimeForThisRoomIndex', crimeForThisRoomIndex)
+            gameView.flipCards(possibleCrime.item1 , possibleCrime.item2, isCrimeSolved, crimeForThisRoomIndex);
 
             gameModel.crimesSolvedCounter++;
 

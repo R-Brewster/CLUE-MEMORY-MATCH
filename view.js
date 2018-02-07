@@ -268,7 +268,7 @@ function GameView() {
     ];
 
     //Reveal cards to show if a crime was solved, then either flip again or leave the cards there and remove dragging depending on if the crime was solved or not
-    this.flipCards = (suspect, weapon, isCrimeSolved) => {
+    this.flipCards = (suspect, weapon, isCrimeSolved, crimeIndex) => {
 
         this.flip = () => {
           //The setTimeout ensures that both cards flip at the same time
@@ -288,6 +288,7 @@ function GameView() {
                 setTimeout(() => {
                     $(`#${suspect}`).draggable('disable').addClass('matchedCard');
                     $(`#${weapon}`).draggable('disable').addClass('matchedCard');
+                    $(`#crimesContainer > div:nth-child(${crimeIndex + 1}) > p`).addClass('crimeTextSolved');
                 }, 300)
                 $('.card').draggable('enable');
                 break;
@@ -306,15 +307,6 @@ function GameView() {
     };
 
     this.allCrimesSolved = () => {
-        // let modalH2 = $('<h2>').text('You solved all of the crimes!');
-        // let modalH4 = $('<h4>').text('Want to play again?');
-        // let startButton = $('<button>').click(() => {gameController.startNewGame(); $('#startModal').modal('hide')}).text('New Game').addClass('newGameButton').css({
-        //     position: 'relative',
-        //     left: '-74%'
-        // });
-        // $('.modal-body').text('');
-        // $('.modal-body').append(modalH2, modalH4);
-        // $('.modal-footer').append(startButton);
         $('#winModal').modal('show');
     }
 }

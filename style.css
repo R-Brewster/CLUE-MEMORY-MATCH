@@ -90,6 +90,11 @@ body {
     margin-top: 1vw;
 }
 
+.crimeTextSolved {
+    text-decoration-color: black;
+    text-decoration-line: line-through;
+}
+
 /*Card container and cards*/
 
 #cardContainer {
