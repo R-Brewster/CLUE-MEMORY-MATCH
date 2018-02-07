@@ -12,11 +12,27 @@ function GameController () {
         switch(registeredEvent){
             case 'crimeSolved':
                 this.stats.crimesSolved++;
-                this.stats.accuracy = (100 * (this.stats.crimesSolved / this.stats.attempts)).toFixed(0);
+                this.stats.accuracy = () => {
+                    let accuracy = (100 * (this.stats.crimesSolved / this.stats.attempts)).toFixed(0);
+                    if(accuracy > 100) {
+                        return 100
+                    }
+                    else {
+                        return accuracy
+                    }
+                };
                 break;
             case 'matchAttempted':
                 this.stats.attempts++;
-                this.stats.accuracy =  (100 *(this.stats.crimesSolved / this.stats.attempts )).toFixed(0);
+                this.stats.accuracy = () => {
+                    let accuracy = (100 * (this.stats.crimesSolved / this.stats.attempts)).toFixed(0);
+                    if(accuracy > 100) {
+                        return 100
+                    }
+                    else {
+                        return accuracy
+                    }
+                };
                 break;
             case 'newGameStarted':
                 this.stats.crimesSolved = 0;

@@ -218,7 +218,7 @@ body {
     background-size: cover;
     position: relative;
     perspective: 800px;
-    z-index: -1;
+    z-index: -10;
 }
 
 /*Loading screen for starting a new game*/
@@ -240,9 +240,10 @@ body {
     grid-column-end: col-4;
     box-sizing: border-box;
     pointer-events: auto;
+    user-select: none;
 }
 
-#newGameButton:hover {
+.newGameButton:hover {
    background-color: black;
 }
 
@@ -260,6 +261,8 @@ body {
 }
 
 .modal-footer > button {
+    font-weight: bold;
+    font-size: 0.8em;
     background-color: transparent;
     border: 1px solid antiquewhite;
     color: antiquewhite;
@@ -267,10 +270,9 @@ body {
 }
 
 .modal-footer > button:hover {
-    font-weight: bold;
     background-color: inherit;
-    color: inherit;
-    border: 2px solid antiquewhite;
+    color: firebrick;
+    border: 1px solid antiquewhite;
 }
 
 #winModal .modal-footer > :nth-child(1) {

@@ -42,10 +42,14 @@ function GameView() {
         }
 
         $('.card').draggable({
-            start: (event, ui) => { jQuery.event.props.push('dataTransfer');  this.cardDragged = event.target; this.handleDrag(event, ui);  $(`${event.target.id}`).css('z-index', '5');},
-            stop: () => {$(`${event.target.id}`).css('z-index', '2')},
+            start: (event, ui) => {this.cardDragged = event.target; this.handleDrag(event, ui);  $(`#${event.target.id}`).css('z-index', '5');},
+            stop: () => {$(`#${event.target.id}`).css('z-index', '2')},
             containment: '#draggableArea',
-            opacity: 0.35,
+            // opacity: 0.35,
+            helper: function( event ) {
+                return $( "<div class='cardBack helper' style='height: 25vh; width:17vh; z-index: 20'></div>" );
+              }
+            // helper: "original",
         });
 
         $('#cardContainer').droppable({
@@ -77,7 +81,7 @@ function GameView() {
         $('#crimesSolved').text(`${stats.crimesSolved}`);
         $('#gamesPlayed').text(`${stats.gamesPlayed}`);
         $('#attempts').text(`${stats.attempts}`);
-        $('#accuracy').text(`${stats.accuracy}%`);
+        $('#accuracy').text(`${stats.accuracy()}%`);
     };
 
     //Add the loading screen on top of everything else, so the cards and rooms can reset
@@ -142,7 +146,6 @@ function GameView() {
                 default:
                     return null;
             }
-        // }
     };
 
     this.handleDrop = (ev, card) =>{
@@ -152,6 +155,11 @@ function GameView() {
                 cardId = card.id;
 
                 ev.target.append($(`#${cardId}`)[0]);
+
+                //If the helper is being dropped back into the same place (so the helper is dropped back onto the card being dragged) it needs to be removed
+                if($(`#${ev.target.id}`).children('.helper')) {
+                    $('.helper').remove();
+                }
 
                 //If the card is being dropped back into the card container, any droppedCard classes need to be removed
                 if($(`#${cardId}`).hasClass('droppedCard1')) {
@@ -207,6 +215,7 @@ function GameView() {
                 }
             }
 
+            //If the card is being dropped on top of another card, remove the card from where it was just dropped and put it back into the parent it came from
             else if ( ev.target.className === "card droppedCard1" || ev.target.className === "card droppedCard2") {
                 let roomOfCard =   $(`#${cardId}`).parent();
                 let card =  $(`#${cardId}`);
@@ -215,22 +224,23 @@ function GameView() {
                 roomOfCard.append(card);
             }
 
-            else {
-                let whichDroppedCardClass =   $(`#${cardId}`).attr('class');
+            // //
+            // else {
+            //     let whichDroppedCardClass =   $(`#${cardId}`).attr('class');
 
-                switch(whichDroppedCardClass){
-                    case 'card droppedCard1':
-                        $(`#${cardId}`).removeClass('droppedCard1');
-                        break;
-                    case 'card droppedCard2':
-                        $(`#${cardId}`).removeClass('droppedCard2');
-                        break;
-                    default:
-                        return null;
-                }
+            //     switch(whichDroppedCardClass){
+            //         case 'card droppedCard1':
+            //             $(`#${cardId}`).removeClass('droppedCard1');
+            //             break;
+            //         case 'card droppedCard2':
+            //             $(`#${cardId}`).removeClass('droppedCard2');
+            //             break;
+            //         default:
+            //             return null;
+            //     }
 
-                ev.target.append( $(`#${cardId}`)[0]);
-            }
+            //     ev.target.append( $(`#${cardId}`)[0]);
+            // }
 
 
             //Uses the room the card was dropped into (is now the parent element of the card) to find the index of the room in the crime list (and change id that has underscore to space so it matches what's in the crime list)
