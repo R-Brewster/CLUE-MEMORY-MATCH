@@ -46,7 +46,7 @@ function GameView() {
             // stop: () => {$(`#${event.target.id}`).css('z-index', '-50')},
             containment: '#draggableArea',
             helper: function( event ) {
-                return $( "<div class='cardBack helper' style='height: 10vw; z-index: 20; width:6vw;'></div>" );
+                return $( `<div class='cardBack helper' style='height: ${$('.card').css('height')}; z-index: 20; width:${$('.card').css('width')};'></div>` );
               },
               appendTo: 'body',
         });

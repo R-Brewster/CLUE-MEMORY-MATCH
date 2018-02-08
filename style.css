@@ -90,7 +90,6 @@ body {
 }
 
 .crimeText {
-    margin-top: 0.8vw;
     font-size: 1.2vw;
 }
 
@@ -104,7 +103,7 @@ body {
 #cardContainer {
     position: relative;
     width: 28vw;
-    height: 28vw;
+    height: 30vw;
     margin-top: 2vw;
     margin-left: 2vw;
     vertical-align: top;
@@ -306,22 +305,63 @@ body {
 /* Mobile responsive styling*/
 
 @media (orientation:landscape) {
-    #portraitOrientationCover {
-        display: none;
-    }
+    /*#portraitOrientationCover {*/
+        /*display: none;*/
+    /*}*/
 }
 
 @media (orientation:portrait) {
-    #portraitOrientationCover {
-        position: fixed;
-        height: 100vh;
-        width: 100vw;
-        display: block;
-        background-color: rgb(0, 0, 0);
-        z-index: 20;
-        color: white;
-        font-size: 8vw;
-        padding: 10vw;
+    /*#portraitOrientationCover {*/
+        /*position: fixed;*/
+        /*height: 100vh;*/
+        /*width: 100vw;*/
+        /*display: block;*/
+        /*background-color: rgb(0, 0, 0);*/
+        /*z-index: 20;*/
+        /*color: white;*/
+        /*font-size: 8vw;*/
+        /*padding: 10vw;*/
+    /*}*/
+
+    .newGameButton {
+        position: absolute;
+        left: 41%;
+        top: 7%;
+    }
+
+    #statsContainer {
+        height: 8vh;
+        width: 96vw;
+    }
+
+    #crimesContainer {
+        width: 96vw;
+    }
+
+    #cardContainer {
+        width: 65vw;
+        margin-left: 17vw;
+        height: 33vw;
+        margin-bottom: 6vw;
+        grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto [col-5] auto [col-6] auto;
+        grid-template-rows: [row-1] auto [row-2] auto;
+    }
+
+    #roomsContainer {
+        width: 96vw;
+        height: 45vh;
+    }
+
+    #statsContainer > div > h4 {
+        font-size: 2.5vw;
+    }
+
+    .crimeTitle {
+        font-size: 2.5vw;
+    }
+
+    .crimeText {
+        font-size: 2.5vw;
     }
 }
 
