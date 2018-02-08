@@ -46,7 +46,7 @@ function GameView() {
             // stop: () => {$(`#${event.target.id}`).css('z-index', '-50')},
             containment: '#draggableArea',
             helper: function( event ) {
-                return $( "<div class='cardBack helper' style='height: 25vh; z-index: 20; width:17vh'></div>" );
+                return $( "<div class='cardBack helper' style='height: 10vw; z-index: 20; width:6vw;'></div>" );
               },
               appendTo: 'body',
         });
@@ -153,6 +153,9 @@ function GameView() {
 
                 cardId = card.id;
 
+        let height = $(`#${cardId}`).css('height');
+        let width =  $(`#${cardId}`).css('width');
+
                 ev.target.append($(`#${cardId}`)[0]);
 
                 //If the helper is being dropped back into the same place (so the helper is dropped back onto the card being dragged) it needs to be removed
@@ -172,17 +175,18 @@ function GameView() {
 
                 //If the card is being dropped into a room
                 else if ($(`#${ev.target.id}`).hasClass('room')){
+
                         //If this card is the only child of the room div, give it droppedCard1
                     if($(`#${cardId}`).parent().children().length === 1){
 
                         //If the card is coming from another room where it was 'droppedCard2', it  needs to become 'droppedCard1'
                         if($(`#${cardId}`).hasClass('droppedCard2')){
-                            $(`#${cardId}`).removeClass('droppedCard2').addClass( 'droppedCard1')
+                            $(`#${cardId}`).removeClass('droppedCard2').addClass( 'droppedCard1').css({'height': height, 'width': width});
                         }
 
                         //If the card doesn't have 'droppedCard1', add it
                         else if(!$(`#${cardId}`).hasClass('droppedCard1')){
-                            $(`#${cardId}`).addClass('droppedCard1')
+                            $(`#${cardId}`).addClass('droppedCard1').css({'height': height, 'width': width});
                         }
 
                     }
@@ -201,18 +205,18 @@ function GameView() {
                         switch(siblingDroppedCardClass){
                             case 'droppedCard1':
                                 if($(`#${cardId}`).hasClass('droppedCard1')){
-                                    $(`#${cardId}`).removeClass('droppedCard1').addClass('droppedCard2');
+                                    $(`#${cardId}`).removeClass('droppedCard1').addClass('droppedCard2').css({'height': height, 'width': width});
                                 }
                                 else{
-                                    $(`#${cardId}`).addClass('droppedCard2');
+                                    $(`#${cardId}`).addClass('droppedCard2').css({'height': height, 'width': width});
                                 }
                                 break;
                             case 'droppedCard2':
                                 if($(`#${cardId}`).hasClass('droppedCard2')){
-                                    $(`#${card}`).removeClass('droppedCard2').addClass('droppedCard1');
+                                    $(`#${card}`).removeClass('droppedCard2').addClass('droppedCard1').css({'height': height, 'width': width});
                                 }
                                 else{
-                                    $(`#${cardId}`).addClass('droppedCard1');
+                                    $(`#${cardId}`).addClass('droppedCard1').css({'height': height, 'width': width});
                                 }
                         }
                     }

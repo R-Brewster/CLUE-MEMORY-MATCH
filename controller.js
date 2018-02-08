@@ -4,7 +4,7 @@ function GameController () {
         crimesSolved: 0,
         gamesPlayed: 0,
         attempts: 0,
-        accuracy: 0,
+        accuracy: () => { return 0},
     };
 
     //Calculates the player's statistics
