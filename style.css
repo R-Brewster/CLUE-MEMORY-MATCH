@@ -32,18 +32,26 @@ body {
     width: 100%;
 }
 
+/* Info container */
+#infoContainer {
+
+}
+
 /*Stats container and statistics*/
 
 #statsContainer {
-    height: 14vh;
-    width: 33vw;
-    display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto;
+    /* height: 14vh;
+    width: 33vw; */
+    height: 14%;
+    width: 33%;
+    display: subgrid;
+    grid-template-columns: repeat(4, [col] auto);
     grid-template-rows: [row-1] auto [row-2] auto;
     grid-gap: 1vh;
     justify-items: center;
     text-align: center;
     margin: 2vh 2vw;
+    font-size: 0.8em;
 }
 
 #statsContainer > div {
@@ -56,17 +64,19 @@ body {
 #statsContainer > div > h4 {
     margin-top: 0;
     font-family: 'Limelight', cursive;
-    font-size: 1.5vw;
+    font-size: 0.8em;
 }
 
 /*Crime container and crimes*/
 
 #crimesContainer {
     position: relative;
-    width: 58vw;
-    height: 16vh;
-    display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto [col-5] auto [col-6] auto;
+    /* width: 58vw;
+    height: 16vh; */
+    width: 58%;
+    height: 16%;
+    display: subgrid;
+    grid-template-columns: repeat(6, [col] auto);
     grid-template-rows: [row-1] auto;
     grid-gap: 2vh;
     justify-items: center;
@@ -86,11 +96,11 @@ body {
 .crimeTitle {
     margin: 0;
     font-family: 'Limelight', cursive;
-    font-size: 1.3vw;
+    font-size: 0.8em;
 }
 
 .crimeText {
-    font-size: 1.2vw;
+    font-size: 0.8em;
 }
 
 .crimeTextSolved {
@@ -102,14 +112,16 @@ body {
 
 #cardContainer {
     position: relative;
-    width: 28vw;
-    height: 30vw;
+    /* width: 28vw;
+    height: 30vw; */
+    width: 28%;
+    height: 60%;
     margin-top: 2vw;
     margin-left: 2vw;
     vertical-align: top;
-    display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto;
-    grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
+    display: subgrid;
+    grid-template-columns: repeat(4, [col] auto);
+    grid-template-rows: repeat(3, [row] auto);
     grid-gap: 2vw;
     justify-items: center;
     align-items: center;
@@ -183,8 +195,8 @@ body {
     /* inline styling appearing on card drop from plugin, !important is overriding that*/
     /* left: 2vw !important;
     top: 2vw !important; */
-    left: 2vw;
-    top: 4vw;
+    left: 8%;
+    top: 25%;
     position: absolute;
     /* margin: 1vh; */
     display: inline-block;
@@ -198,8 +210,8 @@ body {
     /*width: 36%;*/
     /* left: 11vw !important;
     top: 2vw !important; */
-    left: 12vw;
-    top: 4vw;
+    right: 8%;
+    top: 25%;
     position: absolute;
     /* margin: 1vh; */
     display: inline-block;
@@ -214,13 +226,15 @@ body {
 
 #roomsContainer {
     position: relative;
-    width: 64vw;
-    height: 77vh;
+    /* width: 64vw;
+    height: 77vh; */
+    width: 64%;
+    height: 77%;
     margin-top: 1vw;
     margin-left: 2vw;
     vertical-align: top;
-    display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto;
+    display: subgrid;
+    grid-template-columns: repeat(3, [col-] auto);
     grid-template-rows: [row-1] auto [row-2] auto;
     grid-gap: 2vw;
     justify-items: center;
@@ -261,7 +275,7 @@ body {
     border: 2px solid antiquewhite;
     color: antiquewhite;
     font-family: 'Poiret One', cursive;
-    font-size: 1vw;
+    font-size: 0.8em;
     grid-column-start: col-2;
     grid-column-end: col-4;
     box-sizing: border-box;
@@ -309,7 +323,7 @@ body {
 
 /* Mobile responsive styling*/
 
-@media (orientation:portrait) {
+/* @media (orientation:portrait) {
     .newGameButton {
         position: absolute;
         left: 37%;
@@ -320,13 +334,14 @@ body {
     #statsContainer {
         height: 8vh;
         width: 96vw;
-    }
+        font-size: 150%
+    } */
 
-    #statsContainer > div > p {
+    /* #statsContainer > div > p {
         font-size: 2.5vw;
-    }
+    } */
 
-    #crimesContainer {
+    /* #crimesContainer {
         width: 96vw;
         grid-gap: 1vw;
         height: 24vw;
@@ -361,15 +376,15 @@ body {
     }
 
     .crimeTitle {
-        font-size: 2.4vw;
+        font-size: 150%
     }
 
     .crimeText {
-        font-size: 2.5vw;
+        font-size: 150%
     }
 
     .modal {
-        font-size: 3vw;
+        font-size: 150%
     }
 
     .loadingScreen {
@@ -380,10 +395,10 @@ body {
         background-size: 116%;
         background-repeat: no-repeat;
     }
-}
+} */
 
 /* iPhoneX size*/
-@media only screen and (orientation: portrait) and (max-width: 425px) and (min-height: 800px) {
+/* @media only screen and (max-width: 530px) and (min-height: 800px) {
     #roomsContainer {
         width: 64vw;
         height: 44vh;
@@ -401,66 +416,102 @@ body {
         background-size: 124%;
         background-repeat: no-repeat;
     }
-}
-
-/* //Nexus 10 size
-@media only screen and (orientation: portrait) and (min-width: 800px) and (min-height: 1200px) {
-    #roomsContainer {
-        width: 54vw;
-        height: 42vh;
-        margin-top: 4vw;
-        margin-left: 21vw;
-        grid-template-columns: [col-1] auto [col-2] auto;
-        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
-    }
-
-    .loadingScreen {
-        height: 100%;
-        width: 287%;
-        background-image: url(./images/loading_screen_portrait.png);
-        background-position: 535% 0%;
-        background-size: 109%;
-        background-repeat: no-repeat;
-    }
 } */
 
-/* Tablet size*/
-@media only screen and (orientation: portrait) and (min-width: 700px) and (min-height: 800px) {
+/* @media screen and (min-aspect-ratio: 8/5) {
 
-    /* .loadingScreen {
-        height: 100%;
-        width: 287%;
-        background-image: url(./images/loading_screen_portrait.png);
-        background-position: 535% 0%;
-        background-size: 109%;
-        background-repeat: no-repeat;
-    } */
+}
 
-    #crimesContainer {
-        height: 12vw;
+@media screen and (min-aspect-ratio: 16/9) {
+    
+} */
+
+/* @media only screen and (min-width: 660px) and (max-width: 764px) and (min-height: 800px) {
+    #cardContainer {
+        width: 47vw;
+        margin-left: 24vw;
+        height: 22vw;
     }
+}
 
+@media only screen and (min-width: 764px) and (max-width: 900px) and (min-height: 800px) {
     .crimeText {
         font-size: 2vw;
     }
 
-    .droppedCard1 {
-        top: 3vw;
+    #crimesContainer {
+        height: 16vw;
     }
 
-    .droppedCard2 {
-        top: 3vw;
+    #cardContainer {
+        width: 24vw;
+        margin-top: 7vw;
+        margin-left: 9vw;
+        height: 76vw;
+        margin-bottom: 2vw;
+        grid-template-columns: [col-1] auto [col-2] auto [col-3] auto;
+        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto [row-4] auto [row-5] auto [row-6] auto;
+    }
+    
+    #roomsContainer {
+        position: relative;
+        width: 46vw;
+        height: 58vh;
+        margin-top: 1vw;
+        margin-left: 8vw;
+        display: inline-grid;
+        grid-template-columns: [col-1] auto [col-2] auto;
+        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
     }
 
     .newGameButton {
-        left: 39%;
+        left: 2%;
+        top: 27%;
     }
 }
 
+@media only screen and (orientation: portrait) and (min-width: 900px) and (max-width: 1020px) and (min-height: 800px) {
+    .crimeText {
+        font-size: 1.5vw;
+    }
 
-/* Smaller laptop */
-@media only screen and (orientation: landscape) and (min-width: 1024px) {
-    .newGameButton:hover {
-        background-color: black;
-     }
-}
+    .crimeTitle {
+        font-size: 2vw;
+    }
+
+    #statsContainer {
+        font-size: 2vw;
+    }
+
+    #crimesContainer {
+        height: 10vw;
+    }
+
+    #cardContainer {
+        width: 24vw;
+        margin-top: 7vw;
+        margin-left: 9vw;
+        height: 76vw;
+        margin-bottom: 2vw;
+        grid-template-columns: [col-1] auto [col-2] auto [col-3] auto;
+        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto [row-4] auto [row-5] auto [row-6] auto;
+    }
+
+    #roomsContainer {
+        position: relative;
+        width: 46vw;
+        height: 58vh;
+        margin-top: 1vw;
+        margin-left: 8vw;
+        display: inline-grid;
+        grid-template-columns: [col-1] auto [col-2] auto;
+        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
+    }
+
+    .newGameButton {
+        position: absolute;
+        left: 2%;
+        top: 27%;
+        font-size: 2vw;
+    }
+} */

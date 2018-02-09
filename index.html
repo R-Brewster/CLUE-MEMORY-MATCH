@@ -21,6 +21,7 @@
     <!--<div id="portraitOrientationCover">-->
         <!--<p>It looks like you are viewing this game in portrait mode. Please switch to landscape for a better experience.</p>-->
     <!--</div>-->
+    <div id="infoContainer">
         <div id="statsContainer">
             <div>
                 <h4>Crimes Solved:</h4>
@@ -42,49 +43,50 @@
         </div>
 
         <div id="crimesContainer"> </div>
-        <div id="draggableArea">
-            <div id="cardContainer"> </div>
+    </div>
+    <div id="draggableArea">
+        <div id="cardContainer"> </div>
 
-            <div id="roomsContainer"> </div>
-        </div>
+        <div id="roomsContainer"> </div>
+    </div>
 
 
-        <div class="modal fade" id="startModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Clue Memory Match</h1>
-                    </div>
-                    <div class="modal-body"> 
-                        <h2>Who done it?</h2>
-                        <p>In this twist on the classic game of Clue, you are given six crimes to solve. Mr. Boddy has been killed, and it is your job to figure out who commited the crime, in what room, and with which weapon.</p>
-                        <p>Solve the crimes by dragging two cards into a room. The cards will flip to reveal either a person or a weapon. Using the crimes listed above, match the right suspect, weapon, and room.</p>
-                        <p>Good luck!</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal">Close</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+    <div class="modal fade" id="startModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Clue Memory Match</h1>
+                </div>
+                <div class="modal-body"> 
+                    <h2>Who done it?</h2>
+                    <p>In this twist on the classic game of Clue, you are given six crimes to solve. Mr. Boddy has been killed, and it is your job to figure out who commited the crime, in what room, and with which weapon.</p>
+                    <p>Solve the crimes by dragging two cards into a room. The cards will flip to reveal either a person or a weapon. Using the crimes listed above, match the right suspect, weapon, and room.</p>
+                    <p>Good luck!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
-        <div class="modal fade" id="winModal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h1 class="modal-title">Clue Memory Match</h1>
-                    </div>
-                    <div class="modal-body"> 
-                        <h2>You solved all of the crimes!</h2>
-                        <h4>Want to play again?</h4>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" data-dismiss="modal" onclick = "gameController.startNewGame()">New Game</button>
-                        <button type="button" data-dismiss="modal">Close</button>
-                    </div>
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal -->
+    <div class="modal fade" id="winModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title">Clue Memory Match</h1>
+                </div>
+                <div class="modal-body"> 
+                    <h2>You solved all of the crimes!</h2>
+                    <h4>Want to play again?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" data-dismiss="modal" onclick = "gameController.startNewGame()">New Game</button>
+                    <button type="button" data-dismiss="modal">Close</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
 
     </body>
 </html>
