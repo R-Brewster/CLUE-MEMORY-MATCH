@@ -80,12 +80,12 @@ function GameView() {
         $('#crimesSolved').text(`${stats.crimesSolved}`);
         $('#gamesPlayed').text(`${stats.gamesPlayed}`);
         $('#attempts').text(`${stats.attempts}`);
-        $('#accuracy').text(`${stats.accuracy()}%`);
+        $('#accuracy').text(`${stats.accuracy}%`);
     };
 
     //Add the loading screen on top of everything else, so the cards and rooms can reset
     this.displayLoadingScreen = () => {
-        let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
+        let loadingScreen = $('<img>').addClass('loadingScreen');
         $('body').prepend(loadingScreen);
 
         //remove the flipped class after the cards are done flipping, but before the loading screen is removed
@@ -95,7 +95,7 @@ function GameView() {
 
         setTimeout(() => {
             $('.loadingScreen').remove();
-        }, 6000);
+        }, 8000);
 
     };
 

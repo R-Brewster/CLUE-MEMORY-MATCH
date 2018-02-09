@@ -132,8 +132,8 @@ body {
     z-index: 2;
     pointer-events: auto;
     /* If a card is dropped back into the card container, an inline style is applied, this overrides that */
-    left: inherit !important;
-    top: inherit !important;
+    /* left: inherit !important;
+    top: inherit !important; */
 }
 .card:hover {
     cursor: move;
@@ -180,11 +180,13 @@ body {
     /*width: 17vh;*/
     /*height: 57%;*/
     /*width: 36%;*/
-    /* inline styling appearing on card drop, !important is overriding that*/
-    left: 2vw !important;
-    top: 2vw !important;
+    /* inline styling appearing on card drop from plugin, !important is overriding that*/
+    /* left: 2vw !important;
+    top: 2vw !important; */
+    left: 2vw;
+    top: 4vw;
     position: absolute;
-    margin: 1vh;
+    /* margin: 1vh; */
     display: inline-block;
     /* z-index: 20 */
 }
@@ -194,10 +196,12 @@ body {
     /*width: 17vh;*/
     /*height: 57%;*/
     /*width: 36%;*/
-    left: 11vw !important;
-    top: 2vw !important;
+    /* left: 11vw !important;
+    top: 2vw !important; */
+    left: 12vw;
+    top: 4vw;
     position: absolute;
-    margin: 1vh;
+    /* margin: 1vh; */
     display: inline-block;
     /* z-index: 20 */
 }
@@ -241,10 +245,14 @@ body {
 
 /*Loading screen for starting a new game*/
 .loadingScreen {
-    position: relative;
+    position: absolute;
     height: 100%;
     width: 100%;
-    animation: fade 6s;
+    animation: fade 8s;
+    background-image: url('./images/loading_screen.png');
+    background-position: 50% 50%;
+    background-size: 100%;
+    z-index: 50;
 }
 
 /*Start game button */
@@ -259,10 +267,7 @@ body {
     box-sizing: border-box;
     pointer-events: auto;
     user-select: none;
-}
-
-.newGameButton:hover {
-   background-color: black;
+    font-family: 'Limelight', cursive;
 }
 
 /*Opening and win modals */
@@ -304,29 +309,12 @@ body {
 
 /* Mobile responsive styling*/
 
-@media (orientation:landscape) {
-    /*#portraitOrientationCover {*/
-        /*display: none;*/
-    /*}*/
-}
-
 @media (orientation:portrait) {
-    /*#portraitOrientationCover {*/
-        /*position: fixed;*/
-        /*height: 100vh;*/
-        /*width: 100vw;*/
-        /*display: block;*/
-        /*background-color: rgb(0, 0, 0);*/
-        /*z-index: 20;*/
-        /*color: white;*/
-        /*font-size: 8vw;*/
-        /*padding: 10vw;*/
-    /*}*/
-
     .newGameButton {
         position: absolute;
-        left: 41%;
-        top: 7%;
+        left: 37%;
+        top: 8%;
+        font-size: 2vw;
     }
 
     #statsContainer {
@@ -334,22 +322,38 @@ body {
         width: 96vw;
     }
 
+    #statsContainer > div > p {
+        font-size: 2.5vw;
+    }
+
     #crimesContainer {
         width: 96vw;
+        grid-gap: 1vw;
+        height: 24vw;
     }
 
     #cardContainer {
         width: 65vw;
         margin-left: 17vw;
-        height: 33vw;
-        margin-bottom: 6vw;
+        height: 30vw;
+        margin-bottom: 2vw;
         grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto [col-5] auto [col-6] auto;
         grid-template-rows: [row-1] auto [row-2] auto;
     }
 
+    .droppedCard1 {
+        top: 8vw;
+        left: 4vw;
+    }
+
+    .droppedCard2 {
+        left: 15vw;
+        top: 8vw;
+    }
+
     #roomsContainer {
         width: 96vw;
-        height: 45vh;
+        height: 41vh;
     }
 
     #statsContainer > div > h4 {
@@ -357,13 +361,106 @@ body {
     }
 
     .crimeTitle {
-        font-size: 2.5vw;
+        font-size: 2.4vw;
     }
 
     .crimeText {
         font-size: 2.5vw;
     }
+
+    .modal {
+        font-size: 3vw;
+    }
+
+    .loadingScreen {
+        height: 100%;
+        width: 287%;
+        background-image: url(./images/loading_screen_portrait.png);
+        background-position: 326% 0%;
+        background-size: 116%;
+        background-repeat: no-repeat;
+    }
 }
 
-/*@media only screen and (orientation: landscape) and (max-width: 700px) {*/
+/* iPhoneX size*/
+@media only screen and (orientation: portrait) and (max-width: 425px) and (min-height: 800px) {
+    #roomsContainer {
+        width: 64vw;
+        height: 44vh;
+        margin-top: 6vw;
+        margin-left: 17vw;
+        grid-template-columns: [col-1] auto [col-2] auto;
+        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
+    }
 
+    .loadingScreen {
+        height: 100%;
+        width: 287%;
+        background-image: url('./images/loading_screen_portrait.png');
+        background-position: 238% 0%;
+        background-size: 124%;
+        background-repeat: no-repeat;
+    }
+}
+
+/* //Nexus 10 size
+@media only screen and (orientation: portrait) and (min-width: 800px) and (min-height: 1200px) {
+    #roomsContainer {
+        width: 54vw;
+        height: 42vh;
+        margin-top: 4vw;
+        margin-left: 21vw;
+        grid-template-columns: [col-1] auto [col-2] auto;
+        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
+    }
+
+    .loadingScreen {
+        height: 100%;
+        width: 287%;
+        background-image: url(./images/loading_screen_portrait.png);
+        background-position: 535% 0%;
+        background-size: 109%;
+        background-repeat: no-repeat;
+    }
+} */
+
+/* Tablet size*/
+@media only screen and (orientation: portrait) and (min-width: 700px) and (min-height: 800px) {
+
+    /* .loadingScreen {
+        height: 100%;
+        width: 287%;
+        background-image: url(./images/loading_screen_portrait.png);
+        background-position: 535% 0%;
+        background-size: 109%;
+        background-repeat: no-repeat;
+    } */
+
+    #crimesContainer {
+        height: 12vw;
+    }
+
+    .crimeText {
+        font-size: 2vw;
+    }
+
+    .droppedCard1 {
+        top: 3vw;
+    }
+
+    .droppedCard2 {
+        top: 3vw;
+    }
+
+    .newGameButton {
+        left: 39%;
+    }
+}
+
+
+/* Smaller laptop */
+@media only screen and (orientation: landscape) and (min-width: 1024px) {
+    .newGameButton:hover {
+        background-color: black;
+     }
+}
