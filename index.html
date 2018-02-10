@@ -21,33 +21,36 @@
     <!--<div id="portraitOrientationCover">-->
         <!--<p>It looks like you are viewing this game in portrait mode. Please switch to landscape for a better experience.</p>-->
     <!--</div>-->
-    <div id="infoContainer">
-        <div id="statsContainer">
-            <div>
-                <h4>Crimes Solved:</h4>
-                <p id="crimesSolved">0</p>
+    <div id="gameContainer">
+        <div id="infoContainer">
+            <div id="statsContainer">
+                <div>
+                    <h4>Crimes Solved:</h4>
+                    <p id="crimesSolved">0</p>
+                </div>
+                <div>
+                    <h4>Games Played:</h4>
+                    <p id="gamesPlayed">0</p>
+                </div>
+                <div>
+                    <h4>Attempted Matches:</h4>
+                    <p id="attempts">0</p>
+                </div>
+                <div>
+                    <h4>Match Accuracy:</h4>
+                    <p id="accuracy">0%</p>
+                </div>
             </div>
-            <div>
-                <h4>Games Played:</h4>
-                <p id="gamesPlayed">0</p>
-            </div>
-            <div>
-                <h4>Attempted Matches:</h4>
-                <p id="attempts">0</p>
-            </div>
-            <div>
-                <h4>Match Accuracy:</h4>
-                <p id="accuracy">0%</p>
-            </div>
+            
             <button class="newGameButton" onclick="gameController.startNewGame()">New Game</button>
+
+            <div id="crimesContainer"> </div>
         </div>
+        <div id="draggableArea">
+            <div id="cardContainer"> </div>
 
-        <div id="crimesContainer"> </div>
-    </div>
-    <div id="draggableArea">
-        <div id="cardContainer"> </div>
-
-        <div id="roomsContainer"> </div>
+            <div id="roomsContainer"> </div>
+        </div>
     </div>
 
 

@@ -80,7 +80,7 @@ function GameView() {
         $('#crimesSolved').text(`${stats.crimesSolved}`);
         $('#gamesPlayed').text(`${stats.gamesPlayed}`);
         $('#attempts').text(`${stats.attempts}`);
-        $('#accuracy').text(`${stats.accuracy}%`);
+        $('#accuracy').text(`${stats.accuracy.toFixed(0)}%`);
     };
 
     //Add the loading screen on top of everything else, so the cards and rooms can reset
@@ -213,7 +213,7 @@ function GameView() {
                                 break;
                             case 'droppedCard2':
                                 if($(`#${cardId}`).hasClass('droppedCard2')){
-                                    $(`#${card}`).removeClass('droppedCard2').addClass('droppedCard1').css({'height': height, 'width': width});
+                                    $(`#${cardId}`).removeClass('droppedCard2').addClass('droppedCard1').css({'height': height, 'width': width});
                                 }
                                 else{
                                     $(`#${cardId}`).addClass('droppedCard1').css({'height': height, 'width': width});

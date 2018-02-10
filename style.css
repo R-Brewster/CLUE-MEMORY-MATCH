@@ -28,37 +28,51 @@ body {
 }
 
 #draggableArea {
-    height: 100%;
-    width: 100%;
+    grid-area: gameArea;
+    display: inline-grid;
+    grid-template-columns: 5vw 25vw 5vw 60vw 5vw;
+    grid-template-rows: 60vh 20vh;
+    grid-template-areas: 
+    ". cards . rooms"
+}
+
+/* Game container */
+#gameContainer {
+    display: inline-grid;
+    grid-template-columns: 30vw 70vw;
+    grid-template-rows: 30vh 70vh;
+    grid-template-areas: 
+    "info info "
+    "gameArea gameArea"
 }
 
 /* Info container */
 #infoContainer {
-
+    grid-area: info;
+    display: inline-grid;
+    grid-template-columns: 5vw 25vw 5vw 60vw 5vw;
+    grid-template-rows: 15vh 10vh;
+    grid-template-areas: 
+    ". stats . crimes ."
+    ". newGameButton . . ."
 }
 
 /*Stats container and statistics*/
 
 #statsContainer {
-    /* height: 14vh;
-    width: 33vw; */
-    height: 14%;
-    width: 33%;
-    display: subgrid;
-    grid-template-columns: repeat(4, [col] auto);
-    grid-template-rows: [row-1] auto [row-2] auto;
-    grid-gap: 1vh;
-    justify-items: center;
+    grid-area: stats;
+    display: inline-grid;
+    grid-template-columns: repeat(4, auto);
+    grid-gap: 1vw;
+    grid-template-rows: 25vh 5vh;
     text-align: center;
-    margin: 2vh 2vw;
-    font-size: 0.8em;
 }
 
 #statsContainer > div {
-    grid-column-start: auto;
+    /* grid-column-start: col-1;
     grid-column-end: auto;
     grid-row-start: auto;
-    grid-row-end: auto;
+    grid-row-end: auto; */
 }
 
 #statsContainer > div > h4 {
@@ -67,30 +81,28 @@ body {
     font-size: 0.8em;
 }
 
+#statsContainer > div > p {
+    font-size: 0.8em;
+}
+
 /*Crime container and crimes*/
 
 #crimesContainer {
-    position: relative;
-    /* width: 58vw;
-    height: 16vh; */
-    width: 58%;
-    height: 16%;
-    display: subgrid;
-    grid-template-columns: repeat(6, [col] auto);
-    grid-template-rows: [row-1] auto;
-    grid-gap: 2vh;
-    justify-items: center;
-    align-items: center;
-    margin: 2vh 2vw;
+    grid-area: crimes;
+    display: inline-grid;
+    grid-template-columns: repeat(6, auto);
+    grid-gap: 1vw;
+    grid-template-rows: 25vh 5vh;
+    margin-top: 2vh;
 }
 
 .crime {
-    height: 100%;
+    /* height: 100%;
     width: 100%;
     grid-column-start: auto;
     grid-column-end: auto;
     grid-row-start: auto;
-    grid-row-end: auto;
+    grid-row-end: auto; */
 }
 
 .crimeTitle {
@@ -111,41 +123,21 @@ body {
 /*Card container and cards*/
 
 #cardContainer {
-    position: relative;
-    /* width: 28vw;
-    height: 30vw; */
-    width: 28%;
-    height: 60%;
-    margin-top: 2vw;
-    margin-left: 2vw;
-    vertical-align: top;
-    display: subgrid;
-    grid-template-columns: repeat(4, [col] auto);
-    grid-template-rows: repeat(3, [row] auto);
-    grid-gap: 2vw;
-    justify-items: center;
-    align-items: center;
+    grid-area: cards;
+    display: inline-grid;
+    grid-template-columns: repeat(3, [col] 10vh);
+    grid-template-rows: repeat(4, [row] 8vw);
+    grid-gap: 1vw;
 }
 
 /*Flipping motion based on: https://desandro.github.io/3dtransforms/docs/card-flip.html*/
 .card {
-    /*height: 9vw;*/
-    /*width: 6vw;*/
-    height: 100%;
-    width: 100%;
-    grid-column-start: auto;
-    grid-column-end: auto;
-    grid-row-start: auto;
-    grid-row-end: auto;
-    position: relative;
     transform-style: preserve-3d;
     transition: transform 1s;
     font-size: 0;
     z-index: 2;
     pointer-events: auto;
-    /* If a card is dropped back into the card container, an inline style is applied, this overrides that */
-    /* left: inherit !important;
-    top: inherit !important; */
+    padding-bottom: 24%;
 }
 .card:hover {
     cursor: move;
@@ -163,8 +155,6 @@ body {
     width: 100%;
     backface-visibility: hidden;
     pointer-events: none;
-    /*height: 10vw;*/
-    /*width: 6vw;*/
 }
 
 .cardFront {
@@ -178,8 +168,6 @@ body {
     transform: rotateY( 180deg );
     pointer-events: none;
     backface-visibility: hidden;
-    /*height: 10vw;*/
-    /*width: 6vw;*/
 }
 
 .card.flipped {
@@ -188,34 +176,17 @@ body {
 }
 
 .droppedCard1 {
-    /*height: 25vh;*/
-    /*width: 17vh;*/
-    /*height: 57%;*/
-    /*width: 36%;*/
-    /* inline styling appearing on card drop from plugin, !important is overriding that*/
-    /* left: 2vw !important;
-    top: 2vw !important; */
-    left: 8%;
-    top: 25%;
+    left: 15%;
+    top: 20%;
     position: absolute;
-    /* margin: 1vh; */
     display: inline-block;
-    /* z-index: 20 */
 }
 
 .droppedCard2 {
-    /*height: 25vh;*/
-    /*width: 17vh;*/
-    /*height: 57%;*/
-    /*width: 36%;*/
-    /* left: 11vw !important;
-    top: 2vw !important; */
-    right: 8%;
-    top: 25%;
+    right: 15%;
+    top: 20%;
     position: absolute;
-    /* margin: 1vh; */
     display: inline-block;
-    /* z-index: 20 */
 }
 
 .matchedCard {
@@ -225,34 +196,16 @@ body {
 /*Room container and rooms*/
 
 #roomsContainer {
-    position: relative;
-    /* width: 64vw;
-    height: 77vh; */
-    width: 64%;
-    height: 77%;
-    margin-top: 1vw;
-    margin-left: 2vw;
-    vertical-align: top;
-    display: subgrid;
+    grid-area: rooms;
+    display: inline-grid;
     grid-template-columns: repeat(3, [col-] auto);
     grid-template-rows: [row-1] auto [row-2] auto;
-    grid-gap: 2vw;
-    justify-items: center;
-    align-items: center;
-    /* z-index: -12; */
+    grid-gap: 3vw;
 }
 
 .room {
-    height: 95%;
-    width: 98%;
     border: 1px solid black;
-    grid-column-start: auto;
-    grid-column-end: auto;
-    grid-row-start: auto;
-    grid-row-end: auto;
-    white-space: nowrap;
     background-size: cover;
-    position: relative;
     perspective: 800px;
     box-shadow: 0 0 0 0.25vw black;
 }
@@ -275,9 +228,10 @@ body {
     border: 2px solid antiquewhite;
     color: antiquewhite;
     font-family: 'Poiret One', cursive;
-    font-size: 0.8em;
-    grid-column-start: col-2;
-    grid-column-end: col-4;
+    font-size: 0.5em;
+    width: 3vw;
+    height: 5vh;
+    grid-area: newGameButton;
     box-sizing: border-box;
     pointer-events: auto;
     user-select: none;
@@ -323,195 +277,172 @@ body {
 
 /* Mobile responsive styling*/
 
-/* @media (orientation:portrait) {
-    .newGameButton {
-        position: absolute;
-        left: 37%;
-        top: 8%;
-        font-size: 2vw;
+@media screen and (orientation:portrait) {
+    #draggableArea {
+        grid-area: gameArea;
+        display: inline-grid;
+        grid-template-columns: 5vw 90vw 5vw;
+        margin-bottom: 3vh;
+        grid-template-rows: 16vh 50vh;
+        grid-template-areas: 
+        ". cards . "
+        ". rooms .";
+    }
+
+    #gameContainer {
+        display: inline-grid;
+        grid-template-columns: 100vw;
+        grid-template-rows: 30vh 70vh;
+        grid-template-areas: 
+        "info info "
+        "gameArea gameArea"
+    }
+
+    #infoContainer {
+        grid-area: info;
+        display: inline-grid;
+        margin-top: 2vh;
+        grid-template-columns: 5vw 90vw 5vw;
+        grid-template-rows: 5vh 15vh 5vh;
+        grid-template-areas: 
+        ". stats ."
+        ". crimes ."
+        ". newGameButton .";
     }
 
     #statsContainer {
-        height: 8vh;
-        width: 96vw;
-        font-size: 150%
-    } */
-
-    /* #statsContainer > div > p {
-        font-size: 2.5vw;
-    } */
-
-    /* #crimesContainer {
-        width: 96vw;
+        grid-area: stats;
+        display: inline-grid;
+        grid-template-columns: repeat(4, auto);
         grid-gap: 1vw;
-        height: 24vw;
+        grid-template-rows: 25vh 5vh;
+        font-size: 3em;
+    }
+
+    #crimesContainer {
+        grid-area: crimes;
+        display: inline-grid;
+        grid-template-columns: repeat(3, auto);
+        grid-gap: 3vw;
+        grid-template-rows: auto auto;
+        font-size: 2.8em;
+    }
+
+    .newGameButton {
+        font-size: 2em;
+        width: 25vw;
+        height: 2vh;
+        margin-top: 5vw;
+        margin-left: 33vw;
     }
 
     #cardContainer {
-        width: 65vw;
-        margin-left: 17vw;
-        height: 30vw;
-        margin-bottom: 2vw;
-        grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto [col-5] auto [col-6] auto;
-        grid-template-rows: [row-1] auto [row-2] auto;
-    }
-
-    .droppedCard1 {
-        top: 8vw;
-        left: 4vw;
-    }
-
-    .droppedCard2 {
-        left: 15vw;
-        top: 8vw;
+        grid-area: cards;
+        display: inline-grid;
+        grid-template-columns: repeat(6, [col] 12vw);
+        grid-template-rows: repeat(2, [row] 7vh);
+        grid-gap: 1vw;
     }
 
     #roomsContainer {
-        width: 96vw;
-        height: 41vh;
+    grid-area: rooms;
+    display: inline-grid;
+    grid-template-columns: repeat(2, [col] auto);
+    grid-template-rows: repeat(3, [row] auto);
+    grid-gap: 3vw;
+    margin-top: 3vh;
     }
 
-    #statsContainer > div > h4 {
-        font-size: 2.5vw;
+    #startModal p {
+        font-size: 3em;
     }
 
-    .crimeTitle {
-        font-size: 150%
-    }
-
-    .crimeText {
-        font-size: 150%
-    }
-
-    .modal {
-        font-size: 150%
+    #startModal button {
+        font-size: 3em;
     }
 
     .loadingScreen {
-        height: 100%;
-        width: 287%;
-        background-image: url(./images/loading_screen_portrait.png);
-        background-position: 326% 0%;
-        background-size: 116%;
-        background-repeat: no-repeat;
-    }
-} */
-
-/* iPhoneX size*/
-/* @media only screen and (max-width: 530px) and (min-height: 800px) {
-    #roomsContainer {
-        width: 64vw;
-        height: 44vh;
-        margin-top: 6vw;
-        margin-left: 17vw;
-        grid-template-columns: [col-1] auto [col-2] auto;
-        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
-    }
-
-    .loadingScreen {
-        height: 100%;
-        width: 287%;
         background-image: url('./images/loading_screen_portrait.png');
-        background-position: 238% 0%;
-        background-size: 124%;
-        background-repeat: no-repeat;
-    }
-} */
-
-/* @media screen and (min-aspect-ratio: 8/5) {
-
-}
-
-@media screen and (min-aspect-ratio: 16/9) {
-    
-} */
-
-/* @media only screen and (min-width: 660px) and (max-width: 764px) and (min-height: 800px) {
-    #cardContainer {
-        width: 47vw;
-        margin-left: 24vw;
-        height: 22vw;
+        background-position: 63% 50%;
+        background-size: 423%;
     }
 }
 
-@media only screen and (min-width: 764px) and (max-width: 900px) and (min-height: 800px) {
-    .crimeText {
-        font-size: 2vw;
-    }
+/* @media screen and (orientation:portrait) and (max-width: 320px) {
 
-    #crimesContainer {
-        height: 16vw;
+} */
+
+@media screen and (orientation: portrait) and (min-width: 320px) and (max-width: 375px) {
+    #infoContainer {
+        font-size: 0.9em;
     }
 
     #cardContainer {
-        width: 24vw;
-        margin-top: 7vw;
-        margin-left: 9vw;
-        height: 76vw;
-        margin-bottom: 2vw;
-        grid-template-columns: [col-1] auto [col-2] auto [col-3] auto;
-        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto [row-4] auto [row-5] auto [row-6] auto;
+        grid-template-columns: repeat(6, [col] 12vw);
+        grid-template-rows: repeat(2, [row] 8vh)
     }
     
-    #roomsContainer {
-        position: relative;
-        width: 46vw;
-        height: 58vh;
-        margin-top: 1vw;
-        margin-left: 8vw;
+    .newGameButton {
+        margin-top: 4vw;
+    }
+
+    #draggableArea{
+        grid-template-columns: 11vw 77vw 11vw;
+    }
+
+    .loadingScreen {
+        background-size: 358%;
+    }
+}
+
+@media screen and (min-width: 375px) and (max-width: 425px) {
+    #draggableArea {
+        grid-template-rows: 20vh 50vh;
+    }
+    
+    #gameContainer {
+        grid-template-rows: 27vh 73vh;
+    }
+    
+    #infoContainer {
+        grid-area: info;
         display: inline-grid;
-        grid-template-columns: [col-1] auto [col-2] auto;
-        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
+        margin-top: 2vh;
+        grid-template-columns: 5vw 90vw 5vw;
+        grid-template-rows: 5vh 15vh 3vh;
+        grid-template-areas: 
+        ". stats ."
+        ". crimes ."
+        ". newGameButton .";
+        font-size: 0.8em;
+    }
+
+    #cardContainer {
+        grid-template-rows: repeat(2, [row] 9vh);
+    }
+
+    #roomContainer {
+        margin-top: 1vh;
     }
 
     .newGameButton {
-        left: 2%;
-        top: 27%;
+        margin-top: 1vw;
+    }
+    
+    #draggableArea{
+        grid-template-columns: 11vw 77vw 8vw;
     }
 }
 
-@media only screen and (orientation: portrait) and (min-width: 900px) and (max-width: 1020px) and (min-height: 800px) {
-    .crimeText {
-        font-size: 1.5vw;
-    }
+@media screen and (min-width: 425px) and (max-width: 768px) {
+    
+}
 
-    .crimeTitle {
-        font-size: 2vw;
-    }
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+    
+}
 
-    #statsContainer {
-        font-size: 2vw;
-    }
-
-    #crimesContainer {
-        height: 10vw;
-    }
-
-    #cardContainer {
-        width: 24vw;
-        margin-top: 7vw;
-        margin-left: 9vw;
-        height: 76vw;
-        margin-bottom: 2vw;
-        grid-template-columns: [col-1] auto [col-2] auto [col-3] auto;
-        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto [row-4] auto [row-5] auto [row-6] auto;
-    }
-
-    #roomsContainer {
-        position: relative;
-        width: 46vw;
-        height: 58vh;
-        margin-top: 1vw;
-        margin-left: 8vw;
-        display: inline-grid;
-        grid-template-columns: [col-1] auto [col-2] auto;
-        grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
-    }
-
-    .newGameButton {
-        position: absolute;
-        left: 2%;
-        top: 27%;
-        font-size: 2vw;
-    }
-} */
+@media screen and (min-width: 1024px) and (max-width: 1440px) {
+    
+}
+   
