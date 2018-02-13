@@ -309,7 +309,7 @@ function GameView() {
                 setTimeout(() => {
                     $(`#${suspect}`).draggable('disable').addClass('matchedCard');
                     $(`#${weapon}`).draggable('disable').addClass('matchedCard');
-                    $(`#crimesContainer > div:nth-child(${crimeIndex+ 1}) > p`).addClass('crimeTextSolved');
+                    $(`#crimesContainer > div:nth-child(${crimeIndex+ 1}) > h4`).addClass('crimeTextSolved');
                     $(`#crimesContainer > div:nth-child(${crimeIndex + 1}) > p`).addClass('crimeTextSolved');
                 }, 300)
                 $('.card').draggable('enable');

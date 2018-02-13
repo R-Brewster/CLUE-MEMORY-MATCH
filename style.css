@@ -135,7 +135,7 @@ body {
     grid-area: cards;
     display: inline-grid;
     grid-template-columns: repeat(auto-fill, calc(44px + (75 - 44) * ((100vw - 320px) / (1440 - 320))));
-    grid-template-rows: repeat(auto-fill, calc(69px + (104 - 69) * ((100vw - 320px) / (1440 - 320))));
+    grid-template-rows: repeat(auto-fill, calc(69px + (102 - 69) * ((100vw - 320px) / (1440 - 320))));
     grid-gap: 1vw;
     justify-content: center;
     margin-left: 2%;
@@ -213,7 +213,7 @@ body {
     grid-area: rooms;
     display: inline-grid;
     grid-template-columns: repeat(auto-fill, calc(95px + (206 - 95) * ((100vw - 320px) / (1440 - 320))));
-    grid-template-rows: repeat(auto-fill, calc(106px + (175 - 106) * ((100vw - 320px) / (1440 - 320))));
+    grid-template-rows: repeat(auto-fill, calc(106px + (172 - 106) * ((100vw - 320px) / (1440 - 320))));
     grid-gap: 2vw;
     justify-content: center;
     align-content: space-evenly;
@@ -262,7 +262,7 @@ body {
 
 .modal-content {
     background-color: black;
-    font-size: calc(12px + (25 - 12) * ((100vw - 320px) / (1440 - 320)));
+    font-size: calc(12px + (18 - 12) * ((100vw - 320px) / (1440 - 320)));
 }
 
 .modal-header {
@@ -406,6 +406,11 @@ body {
 
     .loadingScreen {
         background-size: 100%;
+    }
+
+    .modal-content {
+        background-color: black;
+        font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1440 - 320)));
     }
   
 }
