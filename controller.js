@@ -4,41 +4,37 @@ function GameController () {
         crimesSolved: 0,
         gamesPlayed: 0,
         attempts: 0,
-        accuracy: () => { return 0},
+        accuracy: 0,
     };
+
+    //More complicated than the other stats, and is done for every registered event, so it's a separate method
+    this.calculateAccuracy = () => {
+        let result = 100 * (this.stats.crimesSolved / this.stats.attempts).toFixed(2);
+            if( isNaN(result)) {
+                result = 0;
+            }
+            if(result > 100) {
+                result = 100;
+            }
+            this.stats.accuracy = result;
+    }
 
     //Calculates the player's statistics
     this.calculateStats = (registeredEvent) => {
         switch(registeredEvent){
             case 'crimeSolved':
                 this.stats.crimesSolved++;
-                this.stats.accuracy = () => {
-                    let accuracy = (100 * (this.stats.crimesSolved / this.stats.attempts)).toFixed(0);
-                    if(accuracy > 100) {
-                        return 100
-                    }
-                    else {
-                        return accuracy
-                    }
-                };
+                this.calculateAccuracy();
                 break;
             case 'matchAttempted':
                 this.stats.attempts++;
-                this.stats.accuracy = () => {
-                    let accuracy = (100 * (this.stats.crimesSolved / this.stats.attempts)).toFixed(0);
-                    if(accuracy > 100) {
-                        return 100
-                    }
-                    else {
-                        return accuracy
-                    }
-                };
+                this.calculateAccuracy();
                 break;
             case 'newGameStarted':
                 this.stats.crimesSolved = 0;
                 this.stats.gamesPlayed++;
                 this.stats.attempts = 0;
-                this.stats.accuracy = 0;
+                this.calculateAccuracy();
                 break;
             default:
                 return null;
@@ -98,7 +94,9 @@ function GameController () {
 
         gameView.displayLoadingScreen();
 
-        $('.crime').remove();
+        //So the animation has a chance to start before everything on the screen changes
+        setTimeout(() => {
+            $('.crime').remove();
         $('.room').remove();
         $('.card').remove();
 
@@ -122,6 +120,7 @@ function GameController () {
         gameModel.crimesSolvedCounter = 0;
 
         this.calculateStats('newGameStarted');
+        }, 3000 )
     };
 }
 

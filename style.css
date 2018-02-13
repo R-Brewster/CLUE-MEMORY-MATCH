@@ -28,113 +28,130 @@ body {
 }
 
 #draggableArea {
-    height: 100%;
-    width: 100%;
+    grid-area: gameArea;
+    display: inline-grid;
+    grid-template-columns: 35% 60%;
+    grid-template-rows: 60vh;
+    grid-template-areas: "cards rooms";
+}
+
+/* Game container */
+#gameContainer {
+    display: inline-grid;
+    grid-template-columns: 100vw;
+    /* grid-template-rows: 10vw 90vw; */
+    grid-template-areas: "info" "gameArea";
+}
+
+/* Info container */
+#infoContainer {
+    grid-area: info;
+    display: inline-grid;
+    grid-template-columns: 40% 50%;
+    /* grid-template-rows: repeat(auto-fill, 10%); */
+    grid-template-areas: "stats crimes";
 }
 
 /*Stats container and statistics*/
-
 #statsContainer {
-    height: 14vh;
-    width: 33vw;
+    grid-area: stats;
     display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto;
-    grid-template-rows: [row-1] auto [row-2] auto;
-    grid-gap: 1vh;
-    justify-items: center;
+    /* grid-template-columns: repeat(auto-fill, 25vh); */
+    grid-template-columns: repeat(auto-fill, calc(59px + (200 - 59) * ((100vw - 320px) / (1440 - 320))));
+    grid-gap: 2%;
+    /* grid-template-rows: auto; */
     text-align: center;
-    margin: 2vh 2vw;
+    margin: 2%;
+    /* font-size: 1em; */
+    justify-content: center;
+    align-content: center;
 }
 
 #statsContainer > div {
-    grid-column-start: auto;
+    /* grid-column-start: col-1;
     grid-column-end: auto;
     grid-row-start: auto;
-    grid-row-end: auto;
+    grid-row-end: auto; */
 }
 
+/* Font calculation from: https://css-tricks.com/snippets/css/fluid-typography/ */
 #statsContainer > div > h4 {
     margin-top: 0;
     font-family: 'Limelight', cursive;
-    font-size: 1.5vw;
+    font-size: calc(8px + (18 - 8) * ((100vw - 320px) / (1440 - 320)));
+    /* font-size: calc(14px + (26 - 14) * ((100vw - 300px) / (1600 - 300))); */
+
+}
+
+#statsContainer > div > p {
+    line-height: 50%;
+    /* font-size: 0.8em; */
+    font-size: calc(8px + (16 - 8) * ((100vw - 320px) / (1440 - 320)));
 }
 
 /*Crime container and crimes*/
 
 #crimesContainer {
-    position: relative;
-    width: 58vw;
-    height: 16vh;
+    grid-area: crimes;
     display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto [col-5] auto [col-6] auto;
-    grid-template-rows: [row-1] auto;
-    grid-gap: 2vh;
-    justify-items: center;
-    align-items: center;
-    margin: 2vh 2vw;
+    /* grid-template-columns: repeat(auto-fill, 25%); */
+    grid-template-columns: repeat(auto-fill, calc(39px + (180 - 39) * ((100vw - 320px) / (1440 - 320))));
+    grid-gap: 4%;
+    /* grid-template-rows: auto; */
+    margin: 2%;
+    /* font-size: calc(12px + 2 * ((100vw - 320px) / 680)); */
+    justify-content: center;
+    align-content: center;
 }
 
 .crime {
-    height: 100%;
+    /* height: 100%;
     width: 100%;
     grid-column-start: auto;
     grid-column-end: auto;
     grid-row-start: auto;
-    grid-row-end: auto;
+    grid-row-end: auto; */
 }
 
 .crimeTitle {
     margin: 0;
     font-family: 'Limelight', cursive;
-    font-size: 1.3vw;
+    font-size: calc(8px + (18 - 8) * ((100vw - 320px) / (1440 - 320)));
 }
 
 .crimeText {
-    margin-top: 0.8vw;
-    font-size: 1.2vw;
+    font-size: calc(8px + (14 - 8) * ((100vw - 320px) / (1440 - 320)));
 }
 
 .crimeTextSolved {
-    text-decoration-color: black;
+    text-decoration-color: firebrick;
     text-decoration-line: line-through;
+    text-decoration-style: wavy;
 }
 
 /*Card container and cards*/
 
 #cardContainer {
-    position: relative;
-    width: 28vw;
-    height: 28vw;
-    margin-top: 2vw;
-    margin-left: 2vw;
-    vertical-align: top;
+    grid-area: cards;
     display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto [col-4] auto;
-    grid-template-rows: [row-1] auto [row-2] auto [row-3] auto;
-    grid-gap: 2vw;
-    justify-items: center;
-    align-items: center;
+    grid-template-columns: repeat(auto-fill, calc(44px + (75 - 44) * ((100vw - 320px) / (1440 - 320))));
+    grid-template-rows: repeat(auto-fill, calc(69px + (102 - 69) * ((100vw - 320px) / (1440 - 320))));
+    grid-gap: 1vw;
+    justify-content: center;
+    margin-left: 2%;
+    margin-right: 2%;
+    margin-top: 8%;
 }
 
 /*Flipping motion based on: https://desandro.github.io/3dtransforms/docs/card-flip.html*/
 .card {
-    /*height: 9vw;*/
-    /*width: 6vw;*/
-    height: 100%;
-    width: 100%;
-    grid-column-start: auto;
-    grid-column-end: auto;
-    grid-row-start: auto;
-    grid-row-end: auto;
-    position: relative;
     transform-style: preserve-3d;
     transition: transform 1s;
     font-size: 0;
     z-index: 2;
     pointer-events: auto;
-    /* If a card is dropped back into the card container, an inline style is applied, this overrides that */
-    left: inherit !important;
-    top: inherit !important;
+    height: 100%;
+    width: 100%;
 }
 .card:hover {
     cursor: move;
@@ -152,8 +169,6 @@ body {
     width: 100%;
     backface-visibility: hidden;
     pointer-events: none;
-    /*height: 10vw;*/
-    /*width: 6vw;*/
 }
 
 .cardFront {
@@ -167,8 +182,6 @@ body {
     transform: rotateY( 180deg );
     pointer-events: none;
     backface-visibility: hidden;
-    /*height: 10vw;*/
-    /*width: 6vw;*/
 }
 
 .card.flipped {
@@ -177,30 +190,17 @@ body {
 }
 
 .droppedCard1 {
-    /*height: 25vh;*/
-    /*width: 17vh;*/
-    /*height: 57%;*/
-    /*width: 36%;*/
-    /* inline styling appearing on card drop, !important is overriding that*/
-    left: 2vw !important;
-    top: 2vw !important;
+    left: 8%;
+    top: 20%;
     position: absolute;
-    margin: 1vh;
     display: inline-block;
-    /* z-index: 20 */
 }
 
 .droppedCard2 {
-    /*height: 25vh;*/
-    /*width: 17vh;*/
-    /*height: 57%;*/
-    /*width: 36%;*/
-    left: 11vw !important;
-    top: 2vw !important;
+    right: 8%;
+    top: 20%;
     position: absolute;
-    margin: 1vh;
     display: inline-block;
-    /* z-index: 20 */
 }
 
 .matchedCard {
@@ -210,42 +210,34 @@ body {
 /*Room container and rooms*/
 
 #roomsContainer {
-    position: relative;
-    width: 64vw;
-    height: 77vh;
-    margin-top: 1vw;
-    margin-left: 2vw;
-    vertical-align: top;
+    grid-area: rooms;
     display: inline-grid;
-    grid-template-columns: [col-1] auto [col-2] auto [col-3] auto;
-    grid-template-rows: [row-1] auto [row-2] auto;
+    grid-template-columns: repeat(auto-fill, calc(95px + (206 - 95) * ((100vw - 320px) / (1440 - 320))));
+    grid-template-rows: repeat(auto-fill, calc(106px + (172 - 106) * ((100vw - 320px) / (1440 - 320))));
     grid-gap: 2vw;
-    justify-items: center;
-    align-items: center;
-    /* z-index: -12; */
+    justify-content: center;
+    align-content: space-evenly;
 }
 
 .room {
-    height: 95%;
-    width: 98%;
     border: 1px solid black;
-    grid-column-start: auto;
-    grid-column-end: auto;
-    grid-row-start: auto;
-    grid-row-end: auto;
-    white-space: nowrap;
     background-size: cover;
-    position: relative;
     perspective: 800px;
     box-shadow: 0 0 0 0.25vw black;
+    width: 100%;
+    height: 100%;
 }
 
 /*Loading screen for starting a new game*/
 .loadingScreen {
-    position: relative;
+    position: absolute;
     height: 100%;
     width: 100%;
-    animation: fade 6s;
+    animation: fade 8s;
+    background-image: url('./images/loading_screen.png');
+    background-position: 50% 66%;
+    background-size: 100%;
+    z-index: 50;
 }
 
 /*Start game button */
@@ -253,17 +245,14 @@ body {
     background-color: transparent;
     border: 2px solid antiquewhite;
     color: antiquewhite;
-    font-family: 'Poiret One', cursive;
-    font-size: 1vw;
-    grid-column-start: col-2;
-    grid-column-end: col-4;
+    font-size: 100%;
+    width: 75%;
+    height: 100%;
+    justify-self: center;
     box-sizing: border-box;
     pointer-events: auto;
     user-select: none;
-}
-
-.newGameButton:hover {
-   background-color: black;
+    font-family: 'Limelight', cursive;
 }
 
 /*Opening and win modals */
@@ -273,6 +262,7 @@ body {
 
 .modal-content {
     background-color: black;
+    font-size: calc(12px + (18 - 12) * ((100vw - 320px) / (1440 - 320)));
 }
 
 .modal-header {
@@ -299,31 +289,144 @@ body {
 }
 
 #winModal .modal-footer > :nth-child(1) {
-    position: relative;
+    /*position: relative;*/
     left: -71%;
 }
 
 /* Mobile responsive styling*/
 
-@media (orientation:landscape) {
-    #portraitOrientationCover {
-        display: none;
+@media screen and (orientation: portrait) and (max-width: 800px){
+    #draggableArea {
+        grid-area: gameArea;
+        display: inline-grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 20vh 50vh;
+        grid-template-areas: "cards" "rooms";
+    }
+
+    #infoContainer {
+        grid-area: info;
+        display: inline-grid;
+        grid-template-columns: 100%;
+        grid-template-areas: "stats" "crimes";
+    }
+
+    .newGameButton {
+        width: 83%;
+        height: 80%;
+        font-size: 1.5em;
+    }
+
+    #cardContainer {
+        margin-top: 4%;
+        grid-template-columns: repeat(auto-fill, calc(27px + (74 - 27) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(43px + (124 - 43) * ((100vw - 320px) / (1440 - 320))));
+    }
+
+    .loadingScreen {
+        background-image: url(./images/loading_screen_portrait.png);
+        background-position: 66% 50%;
+        background-size: 285%;
+        background-repeat: no-repeat;
+    }
+
+    #roomsContainer {
+        grid-template-columns: repeat(auto-fill, calc(95px + (373 - 95) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(106px + (272 - 106) * ((100vw - 320px) / (1440 - 320))));
     }
 }
 
-@media (orientation:portrait) {
-    #portraitOrientationCover {
-        position: fixed;
-        height: 100vh;
-        width: 100vw;
-        display: block;
-        background-color: rgb(0, 0, 0);
-        z-index: 20;
-        color: white;
-        font-size: 8vw;
-        padding: 10vw;
+/* Phones in landscape mode */
+@media screen and (orientation:landscape) and (max-width: 800px) {
+    
+    #draggableArea {
+        grid-area: gameArea;
+        display: inline-grid;
+        grid-template-columns: 40% 60%;
+        grid-template-rows: 50vh;
+        grid-template-areas: "cards rooms";
+    }
+
+    #infoContainer {
+        grid-area: info;
+        display: inline-grid;
+        grid-template-columns: 100%;
+        grid-template-areas: "stats" "crimes";
+    }
+
+    #cardContainer {
+        grid-template-columns: repeat(auto-fill, calc(22px + (68 - 22) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(43px + (104 - 70) * ((100vw - 320px) / (1440 - 320))));
+    }
+
+    #roomsContainer {
+        grid-template-columns: repeat(auto-fill, calc(60px + (206 - 59) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(45px + (175 - 45) * ((100vw - 320px) / (1440 - 320))));
+    }
+
+    .newGameButton {
+        height: 93%;
     }
 }
 
-/*@media only screen and (orientation: landscape) and (max-width: 700px) {*/
+/* iPhone X */
+@media screen and (orientation:landscape) and (min-width: 800px) and (max-width: 815px){
 
+    #draggableArea {
+        grid-area: gameArea;
+        display: inline-grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 20vh 50vh;
+        grid-template-areas: "cards" "rooms";
+    }
+
+    #cardContainer {
+        grid-template-columns: repeat(auto-fill, calc(40px + (51 - 40) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(57px + (104 - 69) * ((100vw - 320px) / (1440 - 320))));
+        margin-top: -2%;
+        margin-left: 9%;
+    }
+
+    #infoContainer {
+        grid-area: info;
+        display: inline-grid;
+        grid-template-columns: 100%;
+        grid-template-areas: "stats" "crimes";
+    }
+
+    #statsContainer {
+        margin-bottom: 0%;
+    }
+
+    #roomsContainer {
+        grid-template-columns: repeat(auto-fill, calc(69px + (206 - 69) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(106px + (143 - 106) * ((100vw - 320px) / (1440 - 320))));
+        align-content: baseline;
+    }
+
+    .loadingScreen {
+        background-size: 100%;
+    }
+
+    .modal-content {
+        background-color: black;
+        font-size: calc(12px + (14 - 12) * ((100vw - 320px) / (1440 - 320)));
+    }
+  
+}
+
+/* Tablets in portrait*/
+@media screen and (orientation:portrait) and (min-width: 800px) and (min-height: 1000px){
+
+    #infoContainer {
+        grid-area: info;
+        display: inline-grid;
+        grid-template-columns: 100%;
+        grid-template-areas: "stats" "crimes";
+    }
+
+    .newGameButton {
+        margin-top: 10%;
+        font-size: 1.5em;
+    }
+}

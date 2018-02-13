@@ -46,7 +46,7 @@ function GameView() {
             // stop: () => {$(`#${event.target.id}`).css('z-index', '-50')},
             containment: '#draggableArea',
             helper: function( event ) {
-                return $( "<div class='cardBack helper' style='height: 10vw; z-index: 20; width:6vw;'></div>" );
+                return $( `<div class='cardBack helper' style='height: ${$('.card').css('height')}; z-index: 20; width:${$('.card').css('width')};'></div>` );
               },
               appendTo: 'body',
         });
@@ -80,12 +80,12 @@ function GameView() {
         $('#crimesSolved').text(`${stats.crimesSolved}`);
         $('#gamesPlayed').text(`${stats.gamesPlayed}`);
         $('#attempts').text(`${stats.attempts}`);
-        $('#accuracy').text(`${stats.accuracy()}%`);
+        $('#accuracy').text(`${stats.accuracy.toFixed(0)}%`);
     };
 
     //Add the loading screen on top of everything else, so the cards and rooms can reset
     this.displayLoadingScreen = () => {
-        let loadingScreen = $('<img>').attr('src', './images/loading_screen.png').addClass('loadingScreen');
+        let loadingScreen = $('<img>').addClass('loadingScreen');
         $('body').prepend(loadingScreen);
 
         //remove the flipped class after the cards are done flipping, but before the loading screen is removed
@@ -95,7 +95,7 @@ function GameView() {
 
         setTimeout(() => {
             $('.loadingScreen').remove();
-        }, 6000);
+        }, 8000);
 
     };
 
@@ -213,7 +213,7 @@ function GameView() {
                                 break;
                             case 'droppedCard2':
                                 if($(`#${cardId}`).hasClass('droppedCard2')){
-                                    $(`#${card}`).removeClass('droppedCard2').addClass('droppedCard1').css({'height': height, 'width': width});
+                                    $(`#${cardId}`).removeClass('droppedCard2').addClass('droppedCard1').css({'height': height, 'width': width});
                                 }
                                 else{
                                     $(`#${cardId}`).addClass('droppedCard1').css({'height': height, 'width': width});
@@ -309,6 +309,7 @@ function GameView() {
                 setTimeout(() => {
                     $(`#${suspect}`).draggable('disable').addClass('matchedCard');
                     $(`#${weapon}`).draggable('disable').addClass('matchedCard');
+                    $(`#crimesContainer > div:nth-child(${crimeIndex+ 1}) > h4`).addClass('crimeTextSolved');
                     $(`#crimesContainer > div:nth-child(${crimeIndex + 1}) > p`).addClass('crimeTextSolved');
                 }, 300)
                 $('.card').draggable('enable');
