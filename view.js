@@ -95,7 +95,7 @@ function GameView() {
 
         setTimeout(() => {
             $('.loadingScreen').remove();
-        }, 8000);
+        }, 5000);
 
     };
 
@@ -156,124 +156,103 @@ function GameView() {
         let height = $(`#${cardId}`).css('height');
         let width =  $(`#${cardId}`).css('width');
 
-                ev.target.append($(`#${cardId}`)[0]);
+        ev.target.append($(`#${cardId}`)[0]);
 
-                //If the helper is being dropped back into the same place (so the helper is dropped back onto the card being dragged) it needs to be removed
-                if($(`#${ev.target.id}`).children('.helper')) {
-                    $('.helper').remove();
+        //If the helper is being dropped back into the same place (so the helper is dropped back onto the card being dragged) it needs to be removed
+        if($(`#${ev.target.id}`).children('.helper')) {
+            $('.helper').remove();
+        }
+
+        // If the card is being dropped back into the card container, any droppedCard classes need to be removed
+        if(ev.target.id === 'cardContainer') {
+            if($(`#${cardId}`).hasClass('droppedCard1')) {
+                $(`#${cardId}`).removeClass('droppedCard1')
+            }
+            else if ($(`#${cardId}`).hasClass('droppedCard2')) {
+                $(`#${cardId}`).removeClass('droppedCard2')
+            }
+        }
+
+        //If the card is being dropped into a room
+        else if ($(`#${ev.target.id}`).hasClass('room')){
+
+                //If this card is the only child of the room div, give it droppedCard1
+            if($(`#${cardId}`).parent().children().length === 1){
+
+                //If the card is coming from another room where it was 'droppedCard2', it  needs to become 'droppedCard1'
+                if($(`#${cardId}`).hasClass('droppedCard2')){
+                    $(`#${cardId}`).removeClass('droppedCard2').addClass( 'droppedCard1').css({'height': height, 'width': width});
                 }
 
-                // If the card is being dropped back into the card container, any droppedCard classes need to be removed
-                if(ev.target.id === 'cardContainer') {
-                    if($(`#${cardId}`).hasClass('droppedCard1')) {
-                        $(`#${cardId}`).removeClass('droppedCard1')
-                    }
-                    else if ($(`#${cardId}`).hasClass('droppedCard2')) {
-                        $(`#${cardId}`).removeClass('droppedCard2')
-                    }
+                //If the card doesn't have 'droppedCard1', add it
+                else if(!$(`#${cardId}`).hasClass('droppedCard1')){
+                    $(`#${cardId}`).addClass('droppedCard1').css({'height': height, 'width': width});
                 }
 
-                //If the card is being dropped into a room
-                else if ($(`#${ev.target.id}`).hasClass('room')){
+            }
+            //If another sibling is present, we first need to figure out which droppedCard class it has then give this card the other droppedCard class
+            else {
+                let siblingDroppedCardClassList = $(`#${cardId}`).siblings();
+                let siblingDroppedCardClass = '';
 
-                        //If this card is the only child of the room div, give it droppedCard1
-                    if($(`#${cardId}`).parent().children().length === 1){
+                if(siblingDroppedCardClassList.hasClass('droppedCard1')){
+                    siblingDroppedCardClass = 'droppedCard1'
+                }
+                else if (siblingDroppedCardClassList.hasClass('droppedCard2')) {
+                    siblingDroppedCardClass = 'droppedCard2'
+                }
 
-                        //If the card is coming from another room where it was 'droppedCard2', it  needs to become 'droppedCard1'
-                        if($(`#${cardId}`).hasClass('droppedCard2')){
-                            $(`#${cardId}`).removeClass('droppedCard2').addClass( 'droppedCard1').css({'height': height, 'width': width});
+                switch(siblingDroppedCardClass){
+                    case 'droppedCard1':
+                        if($(`#${cardId}`).hasClass('droppedCard1')){
+                            $(`#${cardId}`).removeClass('droppedCard1').addClass('droppedCard2').css({'height': height, 'width': width});
                         }
-
-                        //If the card doesn't have 'droppedCard1', add it
-                        else if(!$(`#${cardId}`).hasClass('droppedCard1')){
+                        else{
+                            $(`#${cardId}`).addClass('droppedCard2').css({'height': height, 'width': width});
+                        }
+                        break;
+                    case 'droppedCard2':
+                        if($(`#${cardId}`).hasClass('droppedCard2')){
+                            $(`#${cardId}`).removeClass('droppedCard2').addClass('droppedCard1').css({'height': height, 'width': width});
+                        }
+                        else{
                             $(`#${cardId}`).addClass('droppedCard1').css({'height': height, 'width': width});
                         }
-
-                    }
-                    //If another sibling is present, we first need to figure out which droppedCard class it has then give this card the other droppedCard class
-                    else {
-                        let siblingDroppedCardClassList = $(`#${cardId}`).siblings();
-                        let siblingDroppedCardClass = '';
-
-                        if(siblingDroppedCardClassList.hasClass('droppedCard1')){
-                            siblingDroppedCardClass = 'droppedCard1'
-                        }
-                        else if (siblingDroppedCardClassList.hasClass('droppedCard2')) {
-                            siblingDroppedCardClass = 'droppedCard2'
-                        }
-
-                        switch(siblingDroppedCardClass){
-                            case 'droppedCard1':
-                                if($(`#${cardId}`).hasClass('droppedCard1')){
-                                    $(`#${cardId}`).removeClass('droppedCard1').addClass('droppedCard2').css({'height': height, 'width': width});
-                                }
-                                else{
-                                    $(`#${cardId}`).addClass('droppedCard2').css({'height': height, 'width': width});
-                                }
-                                break;
-                            case 'droppedCard2':
-                                if($(`#${cardId}`).hasClass('droppedCard2')){
-                                    $(`#${cardId}`).removeClass('droppedCard2').addClass('droppedCard1').css({'height': height, 'width': width});
-                                }
-                                else{
-                                    $(`#${cardId}`).addClass('droppedCard1').css({'height': height, 'width': width});
-                                }
-                        }
-                    }
                 }
+            }
+        }
 
-                //If the card is being dropped on top of another card, remove the card from where it was just dropped and put it back into the parent it came from
-                else if ( ev.target.className === "card droppedCard1" || ev.target.className === "card droppedCard2") {
-                    let roomOfCard =   $(`#${cardId}`).parent();
-                    let card =  $(`#${cardId}`);
+        //If the card is being dropped on top of another card, remove the card from where it was just dropped and put it back into the parent it came from
+        else if ( ev.target.className === "card droppedCard1" || ev.target.className === "card droppedCard2") {
+            let roomOfCard =   $(`#${cardId}`).parent();
+            let card =  $(`#${cardId}`);
 
-                    roomOfCard.remove(card);
-                    roomOfCard.append(card);
-                }
+            roomOfCard.remove(card);
+            roomOfCard.append(card);
+        }
 
-                // //
-                // else {
-                //     let whichDroppedCardClass =   $(`#${cardId}`).attr('class');
+        //Uses the room the card was dropped into (is now the parent element of the card) to find the index of the room in the crime list (and change id that has underscore to space so it matches what's in the crime list)
+        let parentRoomIndex = this.matchedObjects.findIndex((crime) => {
+            return crime.room ===  $(`#${cardId}`).parent().attr('id')
+        });
 
-                //     switch(whichDroppedCardClass){
-                //         case 'card droppedCard1':
-                //             $(`#${cardId}`).removeClass('droppedCard1');
-                //             break;
-                //         case 'card droppedCard2':
-                //             $(`#${cardId}`).removeClass('droppedCard2');
-                //             break;
-                //         default:
-                //             return null;
-                //     }
+        //Item 1 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
+        if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item1 === ''){
+            this.matchedObjects[parentRoomIndex].item1 =  $(`#${cardId}`).attr('id')
+        }
 
-                //     ev.target.append( $(`#${cardId}`)[0]);
-                // }
+        //Item 2 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
+        else if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item2 === ''){
+            this.matchedObjects[parentRoomIndex].item2 =  $(`#${cardId}`).attr('id');
+        }
 
+        //If the room has two items already matched, prevent any more cards being added by removing the ondrop attribute (unless the cards are being put back in )
+        if( $(`#${cardId}`).parent().children().length === 2 &&  $(`#${cardId}`).parent().attr('id') !== 'cardContainer'){
+            $(`#${cardId}`).parent().droppable('disable');
 
-                //Uses the room the card was dropped into (is now the parent element of the card) to find the index of the room in the crime list (and change id that has underscore to space so it matches what's in the crime list)
-                let parentRoomIndex = this.matchedObjects.findIndex((crime) => {
-                    return crime.room ===  $(`#${cardId}`).parent().attr('id')
-                });
-
-                //Item 1 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
-                if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item1 === ''){
-                    this.matchedObjects[parentRoomIndex].item1 =  $(`#${cardId}`).attr('id')
-                }
-
-                //Item 2 of the correct room in the matchedObjects index is recorded as this card that was dropped (But this can't happen when the card is put back in the card container and parentIndex is -1)
-                else if(parentRoomIndex !== -1 && this.matchedObjects[parentRoomIndex].item2 === ''){
-                    this.matchedObjects[parentRoomIndex].item2 =  $(`#${cardId}`).attr('id');
-                }
-
-                //If the room has two items already matched, prevent any more cards being added by removing the ondrop attribute (unless the cards are being put back in )
-                if( $(`#${cardId}`).parent().children().length === 2 &&  $(`#${cardId}`).parent().attr('id') !== 'cardContainer'){
-                    $(`#${cardId}`).parent().droppable('disable');
-
-                    //Check if the two cards match the room they're in for a solved crime
-                    gameController.detectCrime(parentRoomIndex);
-                }
-                // }
-            // }
+            //Check if the two cards match the room they're in for a solved crime
+            gameController.detectCrime(parentRoomIndex);
+        }
 
                 
     };
