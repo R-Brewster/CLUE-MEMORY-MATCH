@@ -137,7 +137,6 @@ body {
     grid-template-rows: repeat(auto-fill, calc(69px + (104 - 69) * ((100vw - 320px) / (1440 - 320))));
     grid-gap: 1vw;
     justify-content: center;
-    align-content: space-around;
     margin-left: 2%;
     margin-right: 2%;
     margin-top: 8%;
@@ -289,7 +288,7 @@ body {
 }
 
 #winModal .modal-footer > :nth-child(1) {
-    position: relative;
+    /*position: relative;*/
     left: -71%;
 }
 
@@ -319,8 +318,8 @@ body {
 
     #cardContainer {
         margin-top: 4%;
-        grid-template-columns: repeat(auto-fill, calc(27px + (84 - 27) * ((100vw - 320px) / (1440 - 320))));
-        grid-template-rows: repeat(auto-fill, calc(43px + (141 - 43) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-columns: repeat(auto-fill, calc(27px + (74 - 27) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(43px + (124 - 43) * ((100vw - 320px) / (1440 - 320))));
     }
 
     .loadingScreen {
@@ -328,6 +327,11 @@ body {
         background-position: 66% 50%;
         background-size: 285%;
         background-repeat: no-repeat;
+    }
+
+    #roomsContainer {
+        grid-template-columns: repeat(auto-fill, calc(95px + (373 - 95) * ((100vw - 320px) / (1440 - 320))));
+        grid-template-rows: repeat(auto-fill, calc(106px + (272 - 106) * ((100vw - 320px) / (1440 - 320))));
     }
 }
 
