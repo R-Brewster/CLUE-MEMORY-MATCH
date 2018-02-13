@@ -124,8 +124,9 @@ body {
 }
 
 .crimeTextSolved {
-    text-decoration-color: black;
+    text-decoration-color: firebrick;
     text-decoration-line: line-through;
+    text-decoration-style: wavy;
 }
 
 /*Card container and cards*/
